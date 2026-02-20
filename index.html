@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Linux Leap - Your Guide to Switching OS</title>
+    <style>
+        :root {
+            --primary: #f3a600; /* Linux Penguin Yellow */
+            --bg-dark: #121212;
+            --bg-card: #1e1e1e;
+            --text-main: #e0e0e0;
+        }
+        body {
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: var(--bg-card);
+            padding: 40px 20px;
+            text-align: center;
+            border-bottom: 3px solid var(--primary);
+        }
+        h1 { color: var(--primary); margin-top: 0; }
+        .container {
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+        .card {
+            background-color: var(--bg-card);
+            padding: 30px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+        }
+        button {
+            background-color: var(--primary);
+            color: #000;
+            border: none;
+            padding: 12px 24px;
+            font-size: 1.1em;
+            font-weight: bold;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 10px 5px;
+            transition: 0.2s;
+        }
+        button:hover { opacity: 0.8; }
+        .hidden { display: none; }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #333;
+        }
+        th { color: var(--primary); }
+        .warning { color: #ff5252; font-weight: bold; }
+        .success { color: #69f0ae; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>The Linux Leap 🐧</h1>
+        <p>A fact-based, no-nonsense guide to ditching your old OS and embracing open-source.</p>
+    </header>
+
+    <div class="container">
+        
+        <div class="card">
+            <h2>1. The Hard Facts: What to Consider</h2>
+            <p>Switching to Linux is great for privacy, speed, and customization. However, let's look at the reality before you jump:</p>
+            <table>
+                <tr>
+                    <th>Category</th>
+                    <th>The Reality on Linux</th>
+                </tr>
+                <tr>
+                    <td><strong>MS Office</strong></td>
+                    <td>Native apps do <span class="warning">NOT</span> work. You must use web versions (Office 365) or alternatives like LibreOffice or ONLYOFFICE.</td>
+                </tr>
+                <tr>
+                    <td><strong>Adobe Creative Cloud</strong></td>
+                    <td>Photoshop/Premiere do <span class="warning">NOT</span> work natively. Alternatives: DaVinci Resolve (Video), GIMP/Krita (Photo), Figma (UI).</td>
+                </tr>
+                <tr>
+                    <td><strong>Gaming</strong></td>
+                    <td><span class="success">EXCELLENT</span> via Steam Proton. Most Windows games run perfectly. <strong>Exception:</strong> Games with Kernel-level Anti-Cheat (like Valorant or Fortnite) will not work.</td>
+                </tr>
+                <tr>
+                    <td><strong>Hardware Support</strong></td>
+                    <td>Generally plug-and-play. Printers and older hardware often work better on Linux than on Windows 11.</td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="card" id="quiz-container">
+            <h2>2. The Distro Matchmaker</h2>
+            <p>A "Distribution" (Distro) is just the Linux core bundled with a specific user interface and pre-installed apps. Let's find yours.</p>
+            
+            <div id="question-box">
+                <h3 id="question-text">What is your primary goal?</h3>
+                <div id="btn-group">
+                    <button onclick="nextStep('beginner')">I want it to look/feel like Windows (Beginner)</button>
+                    <button onclick="nextStep('gaming')">I want to play PC Games</button>
+                    <button onclick="nextStep('oldpc')">I want to revive a very old, slow laptop</button>
+                    <button onclick="nextStep('pro')">I am a developer / tech enthusiast</button>
+                </div>
+            </div>
+
+            <div id="result-box" class="hidden">
+                <h3 id="result-title">Your Match: </h3>
+                <p id="result-desc"></p>
+                <button onclick="resetQuiz()">Start Over</button>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>3. Your First Meaningful Steps</h2>
+            <ul>
+                <li><strong>Step 1: Back Up Everything.</strong> Put your important files on an external hard drive or in the cloud. Formatting drives deletes everything!</li>
+                <li><strong>Step 2: Get a USB Stick (8GB+).</strong> Download your chosen Linux ISO file and use a tool like <strong>BalenaEtcher</strong> or <strong>Rufus</strong> to flash it onto the USB stick.</li>
+                <li><strong>Step 3: Try the "Live Environment".</strong> You don't have to install Linux right away. Boot from the USB stick and select "Try Linux". It runs from the USB so you can test your Wi-Fi, audio, and the interface without touching your hard drive.</li>
+                <li><strong>Step 4: Install.</strong> Once you are ready, click the "Install" icon on the Live Desktop and follow the simple on-screen instructions.</li>
+            </ul>
+        </div>
+
+    </div>
+
+    <script>
+        function nextStep(choice) {
+            document.getElementById('question-box').classList.add('hidden');
+            const resultBox = document.getElementById('result-box');
+            const resultTitle = document.getElementById('result-title');
+            const resultDesc = document.getElementById('result-desc');
+            
+            resultBox.classList.remove('hidden');
+
+            if(choice === 'beginner') {
+                resultTitle.innerText = "Your Match: Linux Mint";
+                resultDesc.innerHTML = "<strong>Linux Mint (Cinnamon Edition)</strong> is the undisputed king for beginners. It looks remarkably similar to Windows, comes with all necessary media codecs pre-installed, and is rock solid. It just works.";
+            } else if(choice === 'gaming') {
+                resultTitle.innerText = "Your Match: Pop!_OS or Bazzite";
+                resultDesc.innerHTML = "<strong>Pop!_OS</strong> has incredible out-of-the-box support for NVIDIA graphics cards. If you want an experience identical to the Steam Deck, check out <strong>Bazzite</strong>, which is purpose-built for gamers.";
+            } else if(choice === 'oldpc') {
+                resultTitle.innerText = "Your Match: Linux Mint XFCE or Lubuntu";
+                resultDesc.innerHTML = "These distributions use lightweight desktop environments. They use very little RAM (often under 1GB at idle) and will make a 10-year-old laptop feel brand new.";
+            } else if(choice === 'pro') {
+                resultTitle.innerText = "Your Match: Fedora or Arch Linux";
+                resultDesc.innerHTML = "<strong>Fedora</strong> offers up-to-date packages and is a favorite among software engineers. If you want to build your OS from scratch and understand how everything works, <strong>Arch Linux</strong> is the ultimate challenge.";
+            }
+        }
+
+        function resetQuiz() {
+            document.getElementById('result-box').classList.add('hidden');
+            document.getElementById('question-box').classList.remove('hidden');
+        }
+    </script>
+</body>
+</html>
