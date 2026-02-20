@@ -4,532 +4,795 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline'; img-src 'self' data: https:;">
-    <meta name="description" content="The ultimate, 100% fact-based Linux Wiki. Step-by-step guides for beginners to ditch Windows, setup Dual Boot, find app alternatives, and master open-source.">
+    <meta name="description" content="The absolute, uncompromising encyclopedia for switching to Linux. From zero knowledge to power user. Overcome Windows EOL, reclaim your privacy, and master your PC.">
     <meta name="author" content="The Linux Leap Community">
     
-    <title>The Linux Leap | V4.0 The Ultimate Encyclopedia</title>
+    <title>The Linux Leap | V6.0 The Magnum Opus</title>
     
     <style>
-        /* --- CSS VARIABLES & THEMING --- */
+        /* --- 1. CSS VARIABLES & THEMING --- */
         :root {
             --primary: #f3a600; 
             --primary-hover: #d18f00;
-            --bg-color: #0d0d0d;
-            --bg-card: #1a1a1a;
-            --bg-sidebar: #141414;
+            --bg-color: #050505;
+            --bg-card: #121212;
+            --bg-sidebar: #0a0a0a;
             --text-main: #e2e8f0;
-            --text-muted: #a0aec0;
+            --text-muted: #8b9bb4;
             --border-color: #2d3748;
             --danger: #fc8181;
-            --success: #68d391;
+            --success: #48bb78;
+            --info: #4299e1;
+            --warning: #ecc94b;
             --code-bg: #000000;
-            --transition-speed: 0.25s;
+            --focus-ring: rgba(243, 166, 0, 0.7);
+            --transition-speed: 0.3s;
+            --font-main: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            --font-mono: "Fira Code", "Cascadia Code", Consolas, monospace;
         }
 
         .light-mode {
-            --primary: #dd6b20;
-            --primary-hover: #c05621;
-            --bg-color: #f7fafc;
+            --primary: #d97706;
+            --primary-hover: #b45309;
+            --bg-color: #f8fafc;
             --bg-card: #ffffff;
-            --bg-sidebar: #edf2f7;
-            --text-main: #2d3748;
-            --text-muted: #718096;
-            --border-color: #e2e8f0;
-            --danger: #e53e3e;
-            --success: #38a169;
-            --code-bg: #e2e8f0;
+            --bg-sidebar: #f1f5f9;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --border-color: #cbd5e1;
+            --danger: #ef4444;
+            --success: #22c55e;
+            --info: #3b82f6;
+            --warning: #eab308;
+            --code-bg: #f1f5f9;
         }
 
-        /* --- RESET & TYPOGRAPHY --- */
+        /* --- 2. RESET & BASE TYPOGRAPHY --- */
         *, *::before, *::after { box-sizing: border-box; }
         
         body {
-            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-main);
-            line-height: 1.7;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-            transition: background-color var(--transition-speed), color var(--transition-speed);
+            font-family: var(--font-main); background-color: var(--bg-color); color: var(--text-main);
+            line-height: 1.8; margin: 0; padding: 0; display: flex; flex-direction: column;
+            min-height: 100vh; transition: background-color var(--transition-speed), color var(--transition-speed);
+            overflow-x: hidden;
         }
 
-        /* --- LAYOUT: HEADER --- */
+        *:focus-visible { outline: 3px solid var(--focus-ring); outline-offset: 3px; border-radius: 2px; }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 10px; height: 10px; }
+        ::-webkit-scrollbar-track { background: var(--bg-sidebar); }
+        ::-webkit-scrollbar-thumb { background: var(--border-color); border-radius: 5px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--primary); }
+
+        /* --- 3. LAYOUT: HEADER --- */
         header {
-            background-color: var(--bg-card);
-            padding: 25px 20px;
-            text-align: center;
-            border-bottom: 3px solid var(--primary);
-            position: relative;
-            z-index: 10;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            background-color: var(--bg-card); padding: 30px 20px; text-align: center;
+            border-bottom: 4px solid var(--primary); position: relative; z-index: 20;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
         }
         
-        h1 { color: var(--primary); font-size: 2.8rem; margin: 0 0 5px 0; letter-spacing: -1px; }
-        .subtitle { font-size: 1.1rem; color: var(--text-muted); margin: 0; font-weight: 300; }
+        h1 { color: var(--primary); font-size: 3rem; margin: 0 0 10px 0; letter-spacing: -1.5px; font-weight: 800;}
+        .subtitle { font-size: 1.2rem; color: var(--text-muted); margin: 0; font-weight: 400; max-width: 800px; margin: 0 auto;}
 
         #theme-toggle {
-            position: absolute;
-            top: 25px;
-            right: 25px;
-            background: var(--bg-color);
-            border: 2px solid var(--primary);
-            color: var(--primary);
-            padding: 8px 16px;
-            border-radius: 20px;
-            cursor: pointer;
-            font-weight: 600;
-            transition: all 0.2s;
+            position: absolute; top: 30px; right: 30px; background: transparent;
+            border: 2px solid var(--primary); color: var(--primary); padding: 10px 20px;
+            border-radius: 30px; cursor: pointer; font-weight: bold; transition: all 0.2s ease;
         }
-        #theme-toggle:hover { background: var(--primary); color: #fff; }
+        #theme-toggle:hover { background: var(--primary); color: #000; transform: scale(1.05); }
 
-        /* --- LAYOUT: WIKI CONTAINER --- */
-        .wiki-layout {
-            display: flex;
-            flex: 1;
-            max-width: 1600px;
-            margin: 0 auto;
-            width: 100%;
-        }
+        /* --- 4. LAYOUT: WIKI CONTAINER --- */
+        .wiki-layout { display: flex; flex: 1; max-width: 1800px; margin: 0 auto; width: 100%; }
 
-        /* --- SIDEBAR NAVIGATION & SEARCH --- */
+        /* --- 5. SIDEBAR (NAVIGATION, SEARCH, PROGRESS) --- */
         .sidebar {
-            width: 280px;
-            background-color: var(--bg-sidebar);
-            padding: 25px 20px;
-            border-right: 1px solid var(--border-color);
-            flex-shrink: 0;
-            overflow-y: auto;
-            position: sticky;
-            top: 0;
-            height: calc(100vh - 110px);
+            width: 320px; background-color: var(--bg-sidebar); padding: 30px 20px;
+            border-right: 1px solid var(--border-color); flex-shrink: 0; overflow-y: auto;
+            position: sticky; top: 0; height: calc(100vh - 120px);
         }
 
-        .search-container { margin-bottom: 20px; }
+        /* Progress Tracker */
+        .progress-container {
+            background-color: var(--bg-card); padding: 20px; border-radius: 10px;
+            border: 1px solid var(--border-color); margin-bottom: 25px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .progress-title { font-size: 1rem; font-weight: 700; margin-bottom: 12px; color: var(--text-main); display: flex; justify-content: space-between;}
+        .progress-bar-bg { width: 100%; height: 12px; background-color: var(--bg-color); border-radius: 6px; overflow: hidden; border: 1px solid var(--border-color);}
+        .progress-bar-fill { height: 100%; background-color: var(--success); width: 0%; transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1); }
+        .progress-text { font-size: 0.85rem; color: var(--text-muted); text-align: center; margin-top: 10px; font-weight: 600;}
+        #cert-banner { display: none; background: linear-gradient(45deg, var(--primary), #ffeb3b); color: #000; padding: 10px; border-radius: 6px; margin-top: 10px; text-align: center; font-weight: bold; font-size: 0.9rem; animation: pulse 2s infinite; }
+        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.02); } 100% { transform: scale(1); } }
+
+        /* Search */
+        .search-container { margin-bottom: 25px; position: relative; }
         .search-box {
-            width: 100%;
-            padding: 12px;
-            border-radius: 6px;
-            border: 1px solid var(--border-color);
-            background-color: var(--bg-color);
-            color: var(--text-main);
-            font-size: 1rem;
+            width: 100%; padding: 14px 14px 14px 40px; border-radius: 8px; border: 2px solid var(--border-color);
+            background-color: var(--bg-card); color: var(--text-main); font-size: 1rem; transition: all 0.2s;
         }
-        .search-box:focus { outline: 2px solid var(--primary); }
+        .search-box:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(243, 166, 0, 0.2); }
+        .search-icon { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: var(--text-muted); }
 
+        /* Nav Buttons */
         .sidebar h3 { 
-            color: var(--text-muted); 
-            font-size: 0.85rem; 
-            text-transform: uppercase; 
-            letter-spacing: 1.5px; 
-            margin-top: 25px; 
-            margin-bottom: 10px;
+            color: var(--text-muted); font-size: 0.8rem; text-transform: uppercase; 
+            letter-spacing: 2px; margin-top: 30px; margin-bottom: 12px; padding-left: 10px;
         }
-
         .nav-btn {
-            display: block;
-            width: 100%;
-            text-align: left;
-            background: none;
-            border: none;
-            color: var(--text-main);
-            padding: 10px 15px;
-            margin-bottom: 4px;
-            font-size: 0.95rem;
-            cursor: pointer;
-            border-radius: 6px;
-            transition: all 0.2s;
-            border-left: 4px solid transparent;
+            display: flex; align-items: center; width: 100%; text-align: left; background: none; border: none;
+            color: var(--text-main); padding: 12px 15px; margin-bottom: 5px; font-size: 1rem;
+            cursor: pointer; border-radius: 8px; transition: all 0.2s; border-left: 4px solid transparent;
         }
-
-        .nav-btn:hover { background-color: var(--border-color); }
+        .nav-btn:hover { background-color: var(--bg-card); transform: translateX(4px); }
         .nav-btn.active { 
-            background-color: rgba(243, 166, 0, 0.1); 
-            color: var(--primary); 
-            font-weight: bold; 
-            border-left: 4px solid var(--primary);
+            background-color: rgba(243, 166, 0, 0.1); color: var(--primary); 
+            font-weight: 700; border-left: 4px solid var(--primary);
         }
+        .nav-icon { margin-right: 10px; font-size: 1.2rem; }
+        .match-badge { background: var(--success); color: #fff; font-size: 0.7rem; padding: 2px 6px; border-radius: 10px; margin-left: auto; display: none; }
 
-        /* --- MAIN CONTENT AREA --- */
-        main {
-            flex: 1;
-            padding: 40px 60px;
-            max-width: 1100px;
-            margin: 0 auto;
-        }
-
-        .wiki-section { display: none; animation: fadeIn 0.3s ease-out; }
+        /* --- 6. MAIN CONTENT AREA --- */
+        main { flex: 1; padding: 50px 80px; max-width: 1200px; margin: 0 auto; }
+        .wiki-section { display: none; animation: slideUp 0.4s ease-out forwards; opacity: 0; transform: translateY(20px); }
         .wiki-section.active { display: block; }
 
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes slideUp { to { opacity: 1; transform: translateY(0); } }
 
-        h2 { color: var(--primary); border-bottom: 2px solid var(--border-color); padding-bottom: 10px; margin-top: 0; font-size: 2.2rem;}
-        h3 { color: var(--text-main); margin-top: 35px; font-size: 1.5rem; }
-        p { font-size: 1.1rem; }
+        .section-header { display: flex; justify-content: space-between; align-items: flex-end; border-bottom: 3px solid var(--border-color); padding-bottom: 15px; margin-bottom: 30px; }
+        h2 { color: var(--primary); margin: 0; font-size: 2.5rem; letter-spacing: -1px;}
+        .read-time { color: var(--text-muted); font-size: 0.95rem; font-weight: 600; display: flex; align-items: center; gap: 5px;}
+        
+        h3 { color: var(--text-main); margin-top: 40px; font-size: 1.7rem; }
+        h4 { color: var(--primary); margin-top: 25px; font-size: 1.3rem; }
+        p, li { font-size: 1.15rem; color: var(--text-main); }
+        ul, ol { padding-left: 25px; margin-bottom: 20px; }
+        li { margin-bottom: 10px; }
 
-        /* --- COMPONENTS --- */
+        /* --- 7. COMPONENTS & UTILITIES --- */
         .card {
-            background-color: var(--bg-card);
-            padding: 35px;
-            border-radius: 12px;
-            margin-bottom: 30px;
-            border: 1px solid var(--border-color);
-            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            background-color: var(--bg-card); padding: 40px; border-radius: 16px;
+            margin-bottom: 35px; border: 1px solid var(--border-color); box-shadow: 0 10px 30px rgba(0,0,0,0.15);
         }
 
-        .alert-box {
-            padding: 15px 20px;
-            border-radius: 8px;
-            margin: 20px 0;
-            border-left: 5px solid;
-            background-color: rgba(0,0,0,0.2);
+        /* Checkboxes */
+        .task-item {
+            display: flex; align-items: flex-start; margin-bottom: 20px;
+            padding: 20px; background-color: rgba(0,0,0,0.2); border-radius: 12px;
+            border: 1px solid var(--border-color); transition: all 0.3s ease;
         }
-        .alert-warning { border-color: var(--danger); }
-        .alert-info { border-color: #3182ce; }
-        .alert-success { border-color: var(--success); }
-
-        .table-responsive { overflow-x: auto; margin-top: 20px; }
-        table { width: 100%; border-collapse: collapse; background-color: var(--bg-color); border-radius: 8px; font-size: 1.05rem; }
-        th, td { padding: 16px; text-align: left; border-bottom: 1px solid var(--border-color); }
-        th { background-color: var(--border-color); color: var(--text-main); font-weight: 700; }
-        tr:hover { background-color: rgba(255,255,255,0.02); }
-
-        .warning { color: var(--danger); font-weight: bold; }
-        .success { color: var(--success); font-weight: bold; }
-
-        code { 
-            background-color: var(--code-bg); 
-            padding: 4px 8px; 
-            border-radius: 6px; 
-            font-family: 'Courier New', Courier, monospace; 
-            color: var(--primary); 
-            font-size: 0.95em;
+        .task-item:hover { background-color: rgba(243, 166, 0, 0.05); border-color: rgba(243, 166, 0, 0.3); }
+        .task-checkbox {
+            appearance: none; width: 28px; height: 28px; border: 2px solid var(--primary);
+            border-radius: 6px; margin-right: 20px; margin-top: 4px; cursor: pointer;
+            position: relative; flex-shrink: 0; background-color: var(--bg-card); transition: all 0.2s;
         }
-        pre { 
-            background-color: var(--code-bg); 
-            padding: 20px; 
-            border-radius: 10px; 
-            overflow-x: auto; 
-            color: #e2e8f0; 
-            border: 1px solid var(--border-color);
+        .task-checkbox:checked { background-color: var(--success); border-color: var(--success); transform: scale(1.1); }
+        .task-checkbox:checked::after {
+            content: '✓'; color: white; position: absolute; top: 50%; left: 50%;
+            transform: translate(-50%, -50%); font-size: 18px; font-weight: bold;
         }
-        pre code { background-color: transparent; color: inherit; padding: 0; }
+        .task-content { flex: 1; }
+        .task-content h4 { margin: 0 0 8px 0; color: var(--text-main); font-size: 1.2rem;}
+        .task-content p { margin: 0; font-size: 1rem; color: var(--text-muted); }
+        .completed-text { opacity: 0.4; text-decoration: line-through; }
+
+        /* Alert Boxes */
+        .alert-box { padding: 20px 25px; border-radius: 10px; margin: 25px 0; border-left: 6px solid; background-color: var(--bg-card); font-size: 1.1rem; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+        .alert-warning { border-color: var(--warning); border-left-color: var(--warning); }
+        .alert-danger { border-color: var(--danger); border-left-color: var(--danger); background-color: rgba(252, 129, 129, 0.05); }
+        .alert-info { border-color: var(--info); border-left-color: var(--info); }
+        .alert-success { border-color: var(--success); border-left-color: var(--success); }
+
+        /* Tables */
+        .table-responsive { overflow-x: auto; margin-top: 25px; border-radius: 12px; border: 1px solid var(--border-color); }
+        table { width: 100%; border-collapse: collapse; background-color: var(--bg-card); font-size: 1.1rem; }
+        th, td { padding: 18px 20px; text-align: left; border-bottom: 1px solid var(--border-color); }
+        th { background-color: rgba(0,0,0,0.3); color: var(--primary); font-weight: 700; text-transform: uppercase; font-size: 0.9rem; letter-spacing: 1px;}
+        tr:last-child td { border-bottom: none; }
+        tr:hover { background-color: rgba(255,255,255,0.03); }
+
+        /* Typography Utilities */
+        .highlight { color: var(--primary); font-weight: bold; }
+        .danger-text { color: var(--danger); font-weight: bold; }
+        .success-text { color: var(--success); font-weight: bold; }
+
+        /* Code Blocks & Copy Button */
+        code { background-color: var(--code-bg); padding: 4px 8px; border-radius: 6px; font-family: var(--font-mono); color: var(--primary); font-size: 0.9em; border: 1px solid var(--border-color); }
+        .code-wrapper { position: relative; margin: 20px 0; }
+        pre { background-color: var(--code-bg); padding: 25px; border-radius: 12px; overflow-x: auto; color: #e2e8f0; border: 1px solid var(--border-color); font-family: var(--font-mono); font-size: 1.05rem; line-height: 1.5; box-shadow: inset 0 2px 10px rgba(0,0,0,0.5); }
+        pre code { background-color: transparent; color: inherit; padding: 0; border: none; }
+        
+        .copy-btn {
+            position: absolute; top: 10px; right: 10px; background: var(--bg-card); color: var(--text-muted);
+            border: 1px solid var(--border-color); padding: 6px 12px; border-radius: 6px; cursor: pointer;
+            font-size: 0.85rem; font-weight: bold; transition: all 0.2s; font-family: var(--font-main);
+        }
+        .copy-btn:hover { background: var(--primary); color: #000; border-color: var(--primary); }
+        .copy-btn.copied { background: var(--success); color: #fff; border-color: var(--success); }
 
         /* Buttons */
         .btn {
-            background-color: var(--primary); color: #000; border: none; padding: 14px 28px;
-            font-size: 1.1em; font-weight: bold; border-radius: 8px; cursor: pointer; transition: 0.2s; margin: 8px;
+            background-color: var(--primary); color: #000; border: none; padding: 16px 32px;
+            font-size: 1.15em; font-weight: bold; border-radius: 8px; cursor: pointer; transition: all 0.2s ease; margin: 10px 5px; display: inline-flex; align-items: center; justify-content: center; gap: 10px;
         }
-        .btn:hover { transform: translateY(-3px); box-shadow: 0 6px 15px rgba(243, 166, 0, 0.3); }
+        .btn:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(243, 166, 0, 0.4); }
         .btn-outline { background-color: transparent; border: 2px solid var(--primary); color: var(--primary); }
         .btn-outline:hover { background-color: var(--primary); color: #000; }
 
         .hidden { display: none !important; }
 
-        /* --- MOBILE RESPONSIVENESS --- */
-        @media (max-width: 900px) {
+        /* --- 8. MOBILE RESPONSIVENESS --- */
+        @media (max-width: 1024px) {
+            main { padding: 40px; }
+            .sidebar { width: 280px; }
+        }
+        @media (max-width: 768px) {
             .wiki-layout { flex-direction: column; }
             .sidebar { 
-                width: 100%; 
-                height: auto; 
-                position: relative; 
-                border-right: none; 
-                border-bottom: 1px solid var(--border-color); 
-                padding: 15px; 
+                width: 100%; height: auto; position: relative; border-right: none; 
+                border-bottom: 2px solid var(--border-color); padding: 20px; z-index: 10;
             }
-            /* Make sidebar buttons scroll horizontally on mobile */
-            .sidebar-nav-group {
-                display: flex;
-                overflow-x: auto;
-                white-space: nowrap;
-                padding-bottom: 10px;
+            .sidebar-nav-group { 
+                display: flex; overflow-x: auto; white-space: nowrap; padding-bottom: 15px; 
+                scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch;
             }
             .sidebar h3 { display: none; }
-            .nav-btn { display: inline-block; width: auto; margin-right: 10px; margin-bottom: 0; }
-            main { padding: 25px 20px; }
+            .nav-btn { display: inline-flex; width: auto; margin-right: 15px; margin-bottom: 0; scroll-snap-align: start; }
+            main { padding: 30px 20px; }
+            h1 { font-size: 2.2rem; }
+            h2 { font-size: 2rem; }
+            .section-header { flex-direction: column; align-items: flex-start; gap: 10px; }
         }
     </style>
 </head>
 <body>
 
     <header>
-        <button id="theme-toggle" onclick="toggleTheme()" aria-label="Toggle Theme">🌓 Theme</button>
+        <button id="theme-toggle" onclick="toggleTheme()" aria-label="Toggle Theme">🌓 Toggle Theme</button>
         <h1>The Linux Leap 🐧</h1>
-        <p class="subtitle">The definitive, uncompromising encyclopedia to reclaiming your hardware.</p>
+        <p class="subtitle">The definitive, uncompromising 1000% fact-based encyclopedia. Move beyond Windows EOL, reclaim your privacy, and master your hardware.</p>
     </header>
 
     <div class="wiki-layout">
         <aside class="sidebar">
+            <div class="progress-container">
+                <div class="progress-title"><span>Installation Journey</span> <span id="progress-percent">0%</span></div>
+                <div class="progress-bar-bg">
+                    <div class="progress-bar-fill" id="progress-fill"></div>
+                </div>
+                <div class="progress-text"><span id="progress-count">0</span> / 6 Critical Steps Completed</div>
+                <div id="cert-banner">🏆 Certified Ready to Install!</div>
+            </div>
+
             <div class="search-container">
-                <input type="text" id="search-input" class="search-box" placeholder="🔍 Search the Wiki..." onkeyup="performSearch()">
+                <span class="search-icon">🔍</span>
+                <input type="text" id="search-input" class="search-box" aria-label="Search Wiki" placeholder="Search the Wiki..." onkeyup="performSearch()">
             </div>
             
             <div class="sidebar-nav-group">
-                <h3>Start Here</h3>
-                <button class="nav-btn" data-target="home" onclick="switchTab('home')">🏠 Welcome & Distro Matcher</button>
-                <button class="nav-btn" data-target="prep" onclick="switchTab('prep')">🎒 1. Preparation & Backups</button>
-                <button class="nav-btn" data-target="install" onclick="switchTab('install')">💿 2. Installation Guide</button>
-                <button class="nav-btn" data-target="postinstall" onclick="switchTab('postinstall')">✅ 3. Post-Install Checklist</button>
+                <h3>Introduction</h3>
+                <button class="nav-btn" data-target="home" onclick="switchTab('home')"><span class="nav-icon">🏠</span> Welcome & Distro Matcher <span class="match-badge">0</span></button>
+                <button class="nav-btn" data-target="philosophy" onclick="switchTab('philosophy')"><span class="nav-icon">💡</span> The Philosophy (Why Linux?) <span class="match-badge">0</span></button>
                 
-                <h3>Ecosystem & Apps</h3>
-                <button class="nav-btn" data-target="apps" onclick="switchTab('apps')">🔄 App Replacements (Windows to Linux)</button>
-                <button class="nav-btn" data-target="filesystem" onclick="switchTab('filesystem')">📁 The File System (Where is C:?)</button>
-                <button class="nav-btn" data-target="gaming" onclick="switchTab('gaming')">🎮 Gaming on Linux</button>
+                <h3>The Core Path</h3>
+                <button class="nav-btn" data-target="prep" onclick="switchTab('prep')"><span class="nav-icon">🎒</span> 1. Preparation & Backups <span class="match-badge">0</span></button>
+                <button class="nav-btn" data-target="install" onclick="switchTab('install')"><span class="nav-icon">💿</span> 2. Installation Guide <span class="match-badge">0</span></button>
+                <button class="nav-btn" data-target="postinstall" onclick="switchTab('postinstall')"><span class="nav-icon">✅</span> 3. Post-Install Checklist <span class="match-badge">0</span></button>
                 
-                <h3>Advanced Topics</h3>
-                <button class="nav-btn" data-target="dualboot" onclick="switchTab('dualboot')">⚖️ Dual Booting (Win/Lin)</button>
-                <button class="nav-btn" data-target="terminal" onclick="switchTab('terminal')">💻 Terminal Basics</button>
-                <button class="nav-btn" data-target="glossary" onclick="switchTab('glossary')">📖 The Linux Glossary</button>
+                <h3>Understanding the System</h3>
+                <button class="nav-btn" data-target="filesystem" onclick="switchTab('filesystem')"><span class="nav-icon">📁</span> The File System (Where is C:?) <span class="match-badge">0</span></button>
+                <button class="nav-btn" data-target="permissions" onclick="switchTab('permissions')"><span class="nav-icon">🔑</span> File Permissions (Chmod/Sudo) <span class="match-badge">0</span></button>
+                <button class="nav-btn" data-target="immutable" onclick="switchTab('immutable')"><span class="nav-icon">🛡️</span> Immutable Distros (The Future) <span class="match-badge">0</span></button>
+                
+                <h3>Ecosystem & Hardware</h3>
+                <button class="nav-btn" data-target="hardware" onclick="switchTab('hardware')"><span class="nav-icon">🔧</span> Hardware & Drivers <span class="match-badge">0</span></button>
+                <button class="nav-btn" data-target="apps" onclick="switchTab('apps')"><span class="nav-icon">🔄</span> App Replacements (Win to Lin) <span class="match-badge">0</span></button>
+                <button class="nav-btn" data-target="gaming" onclick="switchTab('gaming')"><span class="nav-icon">🎮</span> Gaming on Linux (Proton) <span class="match-badge">0</span></button>
+                
+                <h3>Advanced Operations</h3>
+                <button class="nav-btn" data-target="vms" onclick="switchTab('vms')"><span class="nav-icon">🗄️</span> Virtual Machines (Testing) <span class="match-badge">0</span></button>
+                <button class="nav-btn" data-target="dualboot" onclick="switchTab('dualboot')"><span class="nav-icon">⚖️</span> Dual Booting (Win/Lin) <span class="match-badge">0</span></button>
+                <button class="nav-btn" data-target="backups" onclick="switchTab('backups')"><span class="nav-icon">💾</span> Backup Strategies (3-2-1) <span class="match-badge">0</span></button>
+                <button class="nav-btn" data-target="terminal" onclick="switchTab('terminal')"><span class="nav-icon">💻</span> Terminal & Network Basics <span class="match-badge">0</span></button>
+                <button class="nav-btn" data-target="troubleshooting" onclick="switchTab('troubleshooting')"><span class="nav-icon">🚑</span> Troubleshooting (SOS/REISUB) <span class="match-badge">0</span></button>
+                <button class="nav-btn" data-target="glossary" onclick="switchTab('glossary')"><span class="nav-icon">📖</span> The Linux Glossary <span class="match-badge">0</span></button>
             </div>
         </aside>
 
         <main>
             
             <section id="home" class="wiki-section">
-                <h2>Welcome to Digital Freedom</h2>
-                <p>Windows 10 is officially End of Life. Millions of perfectly functional PCs have been deemed "e-waste" by Microsoft due to arbitrary hardware limits (like TPM 2.0 and strict CPU generations). <strong>Linux is the solution.</strong> It is free, respects your privacy, and breathes new life into your hardware.</p>
+                <div class="section-header">
+                    <h2>Welcome to Digital Freedom</h2>
+                    <span class="read-time">⏱️ 3 Min Read</span>
+                </div>
+                <p>Welcome to the year 2026. Windows 10 has reached its End of Life. Microsoft has deemed millions of perfectly functional, powerful computers as "e-waste" because they lack an arbitrary TPM 2.0 chip or a specific CPU generation. Simultaneously, Windows 11 pushes Copilot, Recall, and unavoidable Microsoft Accounts onto users.</p>
+                <p>You are here because you want an out. <strong>Linux is that out.</strong> It is an entirely free, open-source operating system that respects your privacy, does not spy on you, and runs significantly faster on your current hardware.</p>
                 
                 <div class="alert-box alert-info">
-                    <strong>Fact Check:</strong> Linux runs the majority of the internet's servers, all Android phones, the Steam Deck, and all of the world's top 500 supercomputers. It is incredibly stable.
+                    <strong>Fact Check:</strong> You already use Linux every day. It runs the majority of the internet's servers, all Android smartphones, the Steam Deck console, smart TVs, and 100% of the world's top 500 supercomputers. It is the most stable software on Earth.
                 </div>
 
                 <div class="card" style="text-align: center;">
                     <h2>Find Your Perfect Linux Distribution</h2>
-                    <p>A "Distribution" (Distro) is just the Linux core bundled with a specific interface. Let our algorithm decide for you.</p>
+                    <p>A "Distribution" (Distro) is simply the Linux engine bundled with a specific user interface and pre-installed apps. Answer 3 questions to let our algorithm find your perfect match.</p>
                     
                     <div id="quiz-step-1">
-                        <h3>I consider my computer skills to be:</h3>
-                        <button class="btn" onclick="setExp('beginner')">Beginner (I just want it to work)</button>
-                        <button class="btn" onclick="setExp('pro')">Advanced (I like tinkering)</button>
+                        <h3>1. I consider my computer skills to be:</h3>
+                        <button class="btn" onclick="quizState.exp='beginner'; nextQuizStep(2)">Beginner (I want it to just work)</button>
+                        <button class="btn btn-outline" onclick="quizState.exp='pro'; nextQuizStep(2)">Advanced (I am a developer/tinkerer)</button>
                     </div>
 
                     <div id="quiz-step-2" class="hidden">
-                        <h3>My main use case is:</h3>
-                        <button class="btn btn-outline" onclick="calcResult('gaming')">Gaming</button>
-                        <button class="btn btn-outline" onclick="calcResult('work')">Office / Web Browsing</button>
-                        <button class="btn btn-outline" onclick="calcResult('old')">Reviving an old PC</button>
+                        <h3>2. My primary hardware age is:</h3>
+                        <button class="btn" onclick="quizState.age='new'; nextQuizStep(3)">Modern (0 - 5 years old)</button>
+                        <button class="btn btn-outline" onclick="quizState.age='old'; nextQuizStep(3)">Potato (7 - 15 years old)</button>
+                    </div>
+
+                    <div id="quiz-step-3" class="hidden">
+                        <h3>3. My main use case will be:</h3>
+                        <button class="btn" onclick="quizState.goal='gaming'; calculateQuiz()">Heavy Gaming</button>
+                        <button class="btn btn-outline" onclick="quizState.goal='work'; calculateQuiz()">Work / Office / Browsing</button>
                     </div>
 
                     <div id="quiz-result" class="hidden">
-                        <h3 id="res-title" style="color: var(--primary); font-size: 1.8rem;"></h3>
-                        <p id="res-desc" style="font-size: 1.1rem; padding: 15px;"></p>
-                        <button class="btn" onclick="resetQ()">Start Over</button>
+                        <h3 id="res-title" style="color: var(--primary); font-size: 2rem;"></h3>
+                        <p id="res-desc" style="font-size: 1.2rem; padding: 20px; line-height: 1.6;"></p>
+                        <button class="btn btn-outline" onclick="resetQuiz()">Start Over</button>
+                    </div>
+                </div>
+            </section>
+
+            <section id="philosophy" class="wiki-section">
+                <div class="section-header">
+                    <h2>The Philosophy (Why Linux?)</h2>
+                    <span class="read-time">⏱️ 4 Min Read</span>
+                </div>
+                <p>Before installing an OS, you must understand the paradigm shift. Moving from Windows or macOS to Linux is not just a software change; it is a shift in ownership.</p>
+                
+                <div class="card">
+                    <h3>1. FOSS (Free and Open Source Software)</h3>
+                    <p>Linux is built on the GPL (General Public License). This means the source code—the actual blueprint of the system—is completely public. Anyone can read it, modify it, and distribute it. Because thousands of independent developers and security researchers can see the code, malicious backdoors or telemetry cannot be hidden.</p>
+                    
+                    <h3>2. Planned Obsolescence vs. Sustainability</h3>
+                    <p>Proprietary companies want to sell you new hardware. They do this by making their software heavier and dropping support for older devices. Linux is built to run efficiently. A 12-year-old ThinkPad running a lightweight Linux distribution is often faster than a brand-new $300 Windows laptop. By using Linux, you are directly combatting e-waste.</p>
+
+                    <h3>3. You Own The System (Root)</h3>
+                    <p>In Windows, the system often tells you "You do not have permission to delete this file" or forces an update when you are trying to work. In Linux, <strong>you are the absolute master of the machine</strong>. If you command the system to delete its own core graphical interface while it's running, it will warn you, but it will obey you. With great power comes great responsibility.</p>
+                    
+                    <div class="alert-box alert-success">
+                        <strong>Privacy Default:</strong> There is no "Advertising ID" in Linux. There is no cloud-syncing of your clipboard history. Your data stays on your hard drive unless you explicitly upload it somewhere.
                     </div>
                 </div>
             </section>
 
             <section id="prep" class="wiki-section">
-                <h2>Step 1: Preparation is Everything</h2>
-                <p>Do not skip this page. Rushing an OS installation leads to data loss.</p>
+                <div class="section-header">
+                    <h2>Step 1: Preparation & Backups</h2>
+                    <span class="read-time">⏱️ 5 Min Read</span>
+                </div>
+                <p>Welcome to the interactive tracker. Do not skip these steps. Take your time. Rushing an OS installation is the #1 cause of data loss.</p>
+                
                 <div class="card">
-                    <h3>1. Back Up Your Data</h3>
-                    <div class="alert-box alert-warning">
-                        <strong>CRITICAL:</strong> Installing an OS will completely format (erase) your hard drive. 
+                    <div class="task-item">
+                        <input type="checkbox" class="task-checkbox tracker-cb" id="task-backup" onchange="updateProgress()">
+                        <div class="task-content" id="content-task-backup">
+                            <h4>1. The Grand Backup</h4>
+                            <p>Move all photos, documents, game saves, and browser bookmarks to an external USB hard drive or a Cloud provider. <span class="danger-text">If you format your drive during install, the data is gone forever.</span></p>
+                        </div>
                     </div>
-                    <p>Move all your photos, documents, game saves, and important files to an external USB hard drive or a cloud provider (like Google Drive or Nextcloud). Your PC will soon be a blank slate.</p>
-                    
-                    <h3>2. Windows Housekeeping (If Dual-Booting)</h3>
-                    <p>If you plan to keep Windows alongside Linux, boot into Windows one last time:</p>
-                    <ul>
-                        <li>Open Control Panel -> Power Options -> "Choose what the power buttons do". Turn off <strong>Fast Startup</strong>. (Fast startup locks the Windows partition, preventing Linux from reading your files).</li>
-                        <li>If you use <strong>BitLocker</strong> encryption, suspend it, or make sure you have your recovery key printed out.</li>
-                    </ul>
 
-                    <h3>3. Create the Bootable USB</h3>
-                    <ol>
-                        <li>Get a USB Drive (At least 8GB). <strong>Everything currently on the USB will be deleted.</strong></li>
-                        <li>Download the <code>.iso</code> file of your chosen Linux distro (e.g., from linuxmint.com).</li>
-                        <li>Download a flashing tool. We highly recommend <strong>Rufus</strong> (if currently on Windows) or <strong>BalenaEtcher</strong>.</li>
-                        <li>Open the tool, select your USB drive, select the <code>.iso</code> file, and hit "Start/Flash". Wait 5-10 minutes.</li>
-                    </ol>
+                    <div class="task-item">
+                        <input type="checkbox" class="task-checkbox tracker-cb" id="task-windows" onchange="updateProgress()">
+                        <div class="task-content" id="content-task-windows">
+                            <h4>2. Disable Windows Shackles (Crucial for Dual-Booters)</h4>
+                            <p>Boot Windows. Go to Control Panel -> Power Options. Click "Choose what the power buttons do". Uncheck <strong>Turn on fast startup</strong>. Fast startup keeps the Windows partition locked, preventing Linux from reading it. Next, check if <strong>BitLocker</strong> is on. If it is, suspend it or ensure you have the 48-digit recovery key saved externally.</p>
+                        </div>
+                    </div>
+
+                    <div class="task-item">
+                        <input type="checkbox" class="task-checkbox tracker-cb" id="task-usb" onchange="updateProgress()">
+                        <div class="task-content" id="content-task-usb">
+                            <h4>3. Flash the Installation USB</h4>
+                            <p>Get a USB stick (8GB minimum). <strong>Everything currently on this stick will be erased.</strong></p>
+                            <ul>
+                                <li>Download the <code>.iso</code> file of the Linux distribution you chose in the Distro Matcher.</li>
+                                <li>Download <a href="https://rufus.ie/" target="_blank" class="highlight">Rufus</a> (Windows) or BalenaEtcher.</li>
+                                <li>Open the tool, select your USB drive, select the <code>.iso</code>, and click Flash. Wait until it completes successfully.</li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
             </section>
 
             <section id="install" class="wiki-section">
-                <h2>Step 2: The Installation</h2>
+                <div class="section-header">
+                    <h2>Step 2: The Installation Guide</h2>
+                    <span class="read-time">⏱️ 6 Min Read</span>
+                </div>
+                <div class="alert-box alert-warning">
+                    <strong>Secure Boot Note:</strong> If your PC refuses to boot the USB, restart, enter your BIOS (usually F2 or DEL), and temporarily disable "Secure Boot". You can turn it back on later.
+                </div>
+
                 <div class="card">
-                    <h3>Booting into the Live Environment</h3>
-                    <p>Unlike Windows, Linux lets you test-drive the OS entirely from the USB stick without touching your hard drive. This is called a "Live USB".</p>
-                    <ol>
-                        <li>Plug the flashed USB into your PC.</li>
-                        <li>Restart the PC and immediately tap your BIOS/Boot Menu key rapidly (Usually <code>F12</code>, <code>F8</code>, <code>F2</code>, or <code>DEL</code> depending on your laptop/motherboard manufacturer).</li>
-                        <li>From the menu, select your USB drive.</li>
-                        <li>If prompted by a GRUB menu, select "Try or Install Linux".</li>
-                    </ol>
+                    <div class="task-item">
+                        <input type="checkbox" class="task-checkbox tracker-cb" id="task-boot" onchange="updateProgress()">
+                        <div class="task-content" id="content-task-boot">
+                            <h4>4. Boot the Live Environment</h4>
+                            <p>Plug the flashed USB into the PC. Restart. Rapidly tap your Boot Menu Key (usually <code>F12</code>, <code>F8</code>, or <code>Esc</code>). Select the USB from the list. Choose "Try Linux" or "Live Environment".</p>
+                        </div>
+                    </div>
                     
-                    <div class="alert-box alert-warning">
-                        <strong>Secure Boot Issue?</strong> If your PC refuses to boot the USB, restart, enter your BIOS settings, and temporarily disable "Secure Boot". You can usually turn it back on after installation.
+                    <div class="task-item">
+                        <input type="checkbox" class="task-checkbox tracker-cb" id="task-test" onchange="updateProgress()">
+                        <div class="task-content" id="content-task-test">
+                            <h4>5. The Hardware Pre-Flight Check</h4>
+                            <p>You are now on a fully functional Linux desktop running purely off the USB stick. Test your hardware: Does Wi-Fi connect? Open a browser and play audio. Does the trackpad/mouse work? Is the resolution correct?</p>
+                        </div>
                     </div>
 
-                    <h3>The Pre-Flight Check</h3>
-                    <p>You are now looking at the Linux desktop running from the USB. Before clicking the Install icon, verify your hardware:</p>
-                    <ul>
-                        <li>Click the network icon. Can you connect to your Wi-Fi?</li>
-                        <li>Open the web browser and play a video. Is the audio working?</li>
-                        <li>Is the screen resolution correct?</li>
-                        <li>Does your trackpad work?</li>
-                    </ul>
-                    <p>If everything works, double-click the <strong>"Install"</strong> icon on the desktop. The wizard will ask for your language, keyboard layout, and timezone. When asked about partitioning, select "Erase disk and install Linux" (unless you are Dual Booting, see that tab).</p>
+                    <div class="task-item">
+                        <input type="checkbox" class="task-checkbox tracker-cb" id="task-install" onchange="updateProgress()">
+                        <div class="task-content" id="content-task-install">
+                            <h4>6. Execute the Installation</h4>
+                            <p>Double-click the "Install" icon on the desktop. Follow the easy wizard (Language, Keyboard, Timezone). When asked about partitions, select <strong>"Erase Disk and Install Linux"</strong> (unless Dual-Booting). Create your username and password. Wait for the progress bar, remove the USB when prompted, and reboot.</p>
+                        </div>
+                    </div>
                 </div>
             </section>
 
             <section id="postinstall" class="wiki-section">
-                <h2>Step 3: The Post-Install Checklist</h2>
-                <p>Congratulations, you are running Linux! Your system is fresh, secure, and fast. Here are the first 3 things you must do to ensure a perfect experience.</p>
+                <div class="section-header">
+                    <h2>Step 3: Post-Install Checklist</h2>
+                    <span class="read-time">⏱️ 4 Min Read</span>
+                </div>
+                <p>Congratulations! You are officially running a Linux machine. It is fresh, incredibly fast, and free of bloatware. Here are the immediate steps to finalize your setup.</p>
                 
                 <div class="card">
-                    <h3>1. Update the System</h3>
-                    <p>Open the "Software Manager" or "App Center" and click the update button. Alternatively, to feel like a hacker immediately, open the Terminal and type:</p>
-                    <pre><code>sudo apt update && sudo apt upgrade -y</code></pre>
-                    <p>This updates the core OS and all your installed apps at the same time. No forced reboots required.</p>
+                    <h3>1. The First Update</h3>
+                    <p>You can use the graphical App Center, but let's do it the cool way. Open the Terminal (usually <code>Ctrl + Alt + T</code>) and copy-paste this command:</p>
+                    <div class="code-wrapper">
+                        <pre><code>sudo apt update && sudo apt upgrade -y</code></pre>
+                    </div>
+                    <p>This command securely contacts the official distribution servers, compares all your installed packages, and updates the entire operating system and all apps simultaneously.</p>
 
-                    <h3>2. Install Media Codecs</h3>
-                    <p>Because of patent laws in some countries, some Linux distros cannot pre-install the software needed to play certain `.mp4` or DVD files. In Linux Mint, simply search your app menu for "Install Multimedia Codecs" and click it.</p>
+                    <h3>2. Install Multimedia Codecs</h3>
+                    <p>Due to legal patents, some Linux versions cannot ship with the code needed to play certain `.mp4` video files or proprietary DVD formats out of the box. Open your App Menu, search for "Multimedia Codecs" (or similar), and install it. Alternatively, simply installing the <strong>VLC Media Player</strong> often brings these codecs with it.</p>
 
-                    <h3>3. Set up Timeshift (System Restore)</h3>
-                    <p>Linux gives you total power, which means you can break things. <strong>Timeshift</strong> is the Linux equivalent of Windows System Restore, but much better. It takes a "snapshot" of your system files.</p>
-                    <ul>
-                        <li>Open your software manager and install `timeshift`.</li>
-                        <li>Run it, select "RSYNC", and tell it to create a daily snapshot.</li>
-                        <li>If an update ever breaks your PC, you can roll back to yesterday's snapshot in 2 minutes.</li>
-                    </ul>
+                    <h3>3. Setup Timeshift (The Undo Button)</h3>
+                    <p>Because you have root access, you can break your system if you type the wrong commands. <strong>Timeshift</strong> takes an instant snapshot of your core system files (using BTRFS or RSYNC). If an update ever fails or you mess up a configuration file, you can roll back your entire OS to yesterday's state in 2 minutes, without affecting your personal documents.</p>
+                    <div class="code-wrapper">
+                        <pre><code>sudo apt install timeshift</code></pre>
+                    </div>
                 </div>
             </section>
 
             <section id="filesystem" class="wiki-section">
-                <h2>The File System: Where is C:?</h2>
-                <p>One of the biggest hurdles for Windows users is understanding where files go. Linux does not use drive letters like <code>C:\</code> or <code>D:\</code>.</p>
+                <div class="section-header">
+                    <h2>The File System: Where is C:?</h2>
+                    <span class="read-time">⏱️ 5 Min Read</span>
+                </div>
+                <p>This is the biggest mental hurdle for Windows users. Linux does not use letters for hard drives. Everything is a folder starting from a single point called the Root.</p>
                 
                 <div class="card">
-                    <h3>The Root Tree ( / )</h3>
-                    <p>In Linux, everything starts at the <strong>Root</strong>, represented by a single forward slash: <code>/</code>. Every hard drive, USB stick, and folder branches out from this root.</p>
+                    <h3>The Root Directory: <code>/</code></h3>
+                    <p>Imagine a giant tree. The absolute base of the tree is the forward slash <code>/</code>. Everything in the computer branches off from here.</p>
                     
                     <div class="table-responsive">
                         <table>
-                            <tr><th>Windows Path</th><th>Linux Equivalent</th><th>What is it?</th></tr>
-                            <tr><td><code>C:\Users\YourName\</code></td><td><code>/home/yourname/</code></td><td>Your personal kingdom. Your Documents, Downloads, and app settings live here.</td></tr>
-                            <tr><td><code>C:\Program Files\</code></td><td><code>/usr/bin/</code> & <code>/opt/</code></td><td>Where the system installs software. You rarely need to go here manually.</td></tr>
-                            <tr><td><code>C:\Windows\</code></td><td><code>/etc/</code> & <code>/bin/</code></td><td>Core system files and configurations. Do not delete things here!</td></tr>
-                            <tr><td><code>D:\ (USB Drive)</code></td><td><code>/media/yourname/</code> or <code>/mnt/</code></td><td>External drives are "mounted" into these folders automatically when plugged in.</td></tr>
+                            <thead>
+                                <tr><th>Windows Path</th><th>Linux Equivalent</th><th>Explanation</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td><code>C:\Users\Name\</code></td><td><code class="highlight">/home/name/</code></td><td>Your kingdom. All your documents, downloads, and app settings live here.</td></tr>
+                                <tr><td><code>C:\Program Files\</code></td><td><code>/usr/bin/</code></td><td>Where standard installed applications are stored by the package manager.</td></tr>
+                                <tr><td><code>C:\Windows\System32\</code></td><td><code>/etc/</code> & <code>/lib/</code></td><td>Core configuration files. Treat these folders with extreme caution.</td></tr>
+                                <tr><td><code>D:\ (USB Drive)</code></td><td><code>/media/name/usb/</code></td><td>External drives are "mounted" (attached) as folders within the media or mnt directory.</td></tr>
+                            </tbody>
                         </table>
                     </div>
 
                     <div class="alert-box alert-success">
-                        <strong>Pro-Tip:</strong> Because your personal files are strictly separated in `/home`, many users put `/home` on a completely separate hard drive partition. If the OS ever breaks, they can reinstall Linux on the root (`/`) without losing a single personal file!
+                        <strong>The /home Partition Advantage:</strong> Advanced Linux users put the <code>/</code> (OS) and the <code>/home</code> (Personal Data) on two completely separate partitions. This means if they ever decide to wipe the OS and switch from Ubuntu to Fedora, their <code>/home</code> partition is untouched. They boot into the new OS and all their files, browser history, and game saves are exactly where they left them!
                     </div>
                 </div>
             </section>
 
+            <section id="permissions" class="wiki-section">
+                <div class="section-header">
+                    <h2>File Permissions (Chmod & Sudo)</h2>
+                    <span class="read-time">⏱️ 7 Min Read</span>
+                </div>
+                <p>In Windows, you double-click a file and it runs. In Linux, security is paranoid by default. If you download a script, Linux will refuse to run it until you explicitly give it permission. This is why viruses struggle on Linux.</p>
+                
+                <div class="card">
+                    <h3>Read, Write, Execute</h3>
+                    <p>Every file and folder has three levels of permissions, assigned to three different groups: The <strong>User</strong> (You), the <strong>Group</strong>, and <strong>Others</strong> (Anyone else).</p>
+                    <ul>
+                        <li><strong>Read (r):</strong> Can view the file contents.</li>
+                        <li><strong>Write (w):</strong> Can modify or delete the file.</li>
+                        <li><strong>Execute (x):</strong> Can run the file as a program.</li>
+                    </ul>
+
+                    <h3>Using Chmod</h3>
+                    <p>If you download a game server script like <code>start.sh</code>, it won't run. You must make it executable using the <code>chmod</code> (Change Mode) command:</p>
+                    <div class="code-wrapper">
+                        <pre><code>chmod +x start.sh
+./start.sh</code></pre>
+                    </div>
+
+                    <h3>The Root User (Superuser) & Sudo</h3>
+                    <p>The <strong>Root</strong> user is the absolute god of the system. By default, you log in as a standard user to prevent accidental damage. When you need to install an app or edit a core system file, you temporarily borrow Root's power by typing <code>sudo</code> (SuperUser DO) before the command.</p>
+                    <p>When you type a password for a sudo command, <strong>the terminal will not show asterisks (***)</strong>. It will look like nothing is happening. This is a security feature to prevent people from guessing your password length. Just type it blindly and press Enter.</p>
+                </div>
+            </section>
+
+            <section id="immutable" class="wiki-section">
+                <div class="section-header">
+                    <h2>Immutable Distros (The Future of Linux)</h2>
+                    <span class="read-time">⏱️ 6 Min Read</span>
+                </div>
+                <div class="alert-box alert-info">
+                    <strong>Trend Alert:</strong> In 2026, Immutable Distributions are rapidly replacing traditional Linux setups for casual users and gamers.
+                </div>
+                <p>An "Immutable" (unchangeable) operating system is designed exactly like Android, iOS, or a game console. The core system files are locked in a read-only state.</p>
+                
+                <div class="card">
+                    <h3>How It Works</h3>
+                    <p>In traditional Linux, if you install an app via terminal, it scatters its dependencies all over the core system folders. If an update fails mid-way, the OS breaks.</p>
+                    <p>In an Immutable OS (like <strong>Fedora Silverblue, Bazzite, or Vanilla OS</strong>), the core OS is completely locked. You cannot break it. Apps are installed strictly via <strong>Flatpaks</strong> (sandboxed containers) or inside localized virtual containers (like Distrobox). The app never touches the actual OS.</p>
+
+                    <h3>Atomic Updates</h3>
+                    <p>Updates on immutable systems are "atomic". The system downloads an entire fresh image of the new OS update in the background. When you restart your PC, it simply swaps the old image for the new one. If the new update has a bug, you just select the old image from the boot menu, and you are instantly back to normal.</p>
+                    <p>Valve uses exactly this technology for <strong>SteamOS</strong> on the Steam Deck to ensure gamers can never accidentally destroy their software.</p>
+                </div>
+            </section>
+
+            <section id="hardware" class="wiki-section">
+                <div class="section-header">
+                    <h2>Hardware & Drivers Demystified</h2>
+                    <span class="read-time">⏱️ 5 Min Read</span>
+                </div>
+                <p>Forget everything you know about hunting for `.exe` drivers on shady manufacturer websites. Linux handles hardware fundamentally differently: the drivers are inside the kernel itself.</p>
+                
+                <div class="card">
+                    <h3>Graphics Cards (GPUs)</h3>
+                    <table class="table-responsive">
+                        <thead>
+                            <tr><th>Manufacturer</th><th>The Linux Reality</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td><strong>AMD</strong></td><td><span class="success-text">Flawless.</span> AMD embraces open-source. The `AMDGPU` driver is baked into the kernel. You plug in a Radeon card, boot the PC, and you instantly have maximum gaming performance. No setup required.</td></tr>
+                            <tr><td><strong>Intel</strong></td><td><span class="success-text">Flawless.</span> Intel's integrated graphics and ARC GPUs have drivers built directly into the kernel. Plug and play.</td></tr>
+                            <tr><td><strong>NVIDIA</strong></td><td><span class="danger-text">Requires Setup.</span> NVIDIA refuses to open-source their modern drivers. While Linux provides a basic open-source driver (Nouveau) so your screen turns on, it is terrible for 3D gaming. <strong>You must open your Distro's "Driver Manager" app and explicitly install the "Proprietary NVIDIA Driver".</strong></td></tr>
+                        </tbody>
+                    </table>
+
+                    <h3>Printers and Scanners</h3>
+                    <p>Linux uses <strong>CUPS</strong> (Common UNIX Printing System). If you have a modern Wi-Fi printer (HP, Brother, Epson), do not try to install drivers. Simply connect the printer to your Wi-Fi router. Linux will automatically discover it on the network and it will appear in your print dialog. It feels like magic.</p>
+                </div>
+            </section>
+
             <section id="apps" class="wiki-section">
-                <h2>The App Directory: Windows to Linux Alternatives</h2>
-                <p>You cannot run `.exe` files natively on Linux. While some can be forced to run via a translation layer called WINE, the best experience is always using native open-source alternatives.</p>
+                <div class="section-header">
+                    <h2>App Replacements (Windows to Linux)</h2>
+                    <span class="read-time">⏱️ 6 Min Read</span>
+                </div>
+                <p>Linux cannot run Windows `.exe` files natively. While tools like WINE exist to translate them, the absolute best experience is learning to use native open-source alternatives. Often, these alternatives are more powerful and completely free of subscriptions.</p>
                 
                 <div class="card">
                     <div class="table-responsive">
                         <table>
-                            <tr><th>Windows App</th><th>Linux Native Alternative</th><th>Notes</th></tr>
-                            <tr><td><strong>Microsoft Office</strong></td><td>LibreOffice / ONLYOFFICE</td><td>ONLYOFFICE has the best compatibility with `.docx` and `.xlsx` formats. If strictly necessary, use Office 365 in your web browser.</td></tr>
-                            <tr><td><strong>Adobe Photoshop</strong></td><td>GIMP / Krita / Photopea (Web)</td><td>Krita is incredible for digital painting. GIMP handles image manipulation. Photopea is a 1:1 Photoshop clone in the browser.</td></tr>
-                            <tr><td><strong>Adobe Premiere Pro</strong></td><td>DaVinci Resolve / Kdenlive</td><td>DaVinci Resolve is Hollywood-grade and runs natively on Linux (requires decent GPU). Kdenlive is great for basic YouTube edits.</td></tr>
-                            <tr><td><strong>Adobe Illustrator</strong></td><td>Inkscape</td><td>Industry standard open-source vector graphics editor.</td></tr>
-                            <tr><td><strong>Notepad++</strong></td><td>Kate / Notepadqq</td><td>Kate is a wildly powerful text editor built by the KDE team.</td></tr>
-                            <tr><td><strong>Task Manager</strong></td><td>System Monitor / htop / btop</td><td>Open terminal and type `btop` for the most beautiful system monitor you've ever seen.</td></tr>
-                            <tr><td><strong>Outlook</strong></td><td>Mozilla Thunderbird</td><td>Handles all your emails, calendars, and exchange servers natively.</td></tr>
+                            <thead>
+                                <tr><th>Windows Application</th><th>Linux Native Alternative</th><th>Notes</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>Microsoft Office (Word/Excel)</td><td><span class="highlight">LibreOffice / ONLYOFFICE</span></td><td>ONLYOFFICE has a highly compatible ribbon interface for `.docx`. For heavy collaboration, use Office 365 in your Web Browser.</td></tr>
+                                <tr><td>Adobe Photoshop</td><td><span class="highlight">GIMP / Krita / Photopea</span></td><td>Krita is industry-standard for digital painting. Photopea is a free 1:1 Photoshop clone that runs perfectly in any web browser.</td></tr>
+                                <tr><td>Adobe Premiere Pro</td><td><span class="highlight">DaVinci Resolve / Kdenlive</span></td><td>DaVinci Resolve is Hollywood-grade editing software and has a native Linux version (requires a dedicated GPU). Kdenlive is excellent for YouTube edits.</td></tr>
+                                <tr><td>Adobe Illustrator</td><td><span class="highlight">Inkscape</span></td><td>The open-source champion for vector graphics.</td></tr>
+                                <tr><td>Notepad++</td><td><span class="highlight">Kate / VS Code</span></td><td>Kate is a wildly powerful native text editor. Visual Studio Code runs perfectly on Linux natively.</td></tr>
+                                <tr><td>Task Manager</td><td><span class="highlight">System Monitor / btop</span></td><td>Open the terminal and run `btop` for the most beautiful, functional resource monitor you have ever seen.</td></tr>
+                                <tr><td>Outlook Mail</td><td><span class="highlight">Mozilla Thunderbird</span></td><td>Handles all your emails, calendars, and Microsoft Exchange servers natively.</td></tr>
+                            </tbody>
                         </table>
                     </div>
                 </div>
             </section>
 
             <section id="gaming" class="wiki-section">
-                <h2>Gaming on Linux</h2>
-                <p>Ten years ago, Linux gaming was a joke. Today, thanks to Valve (creators of Steam), it is phenomenal. The Steam Deck is literally a handheld Linux PC.</p>
+                <div class="section-header">
+                    <h2>Gaming on Linux (The Proton Magic)</h2>
+                    <span class="read-time">⏱️ 5 Min Read</span>
+                </div>
+                <p>A decade ago, gaming on Linux was a nightmare. Today, it is a primary gaming platform. Valve (the creators of Steam) poured millions of dollars into making Linux the operating system for the Steam Deck.</p>
                 
                 <div class="card">
-                    <h3>Steam & Proton (The Magic Wand)</h3>
-                    <p>Valve created a compatibility layer called <strong>Proton</strong>. It translates Windows DirectX calls into Linux Vulkan calls in real-time. </p>
+                    <h3>Steam & Proton</h3>
+                    <p>Valve created <strong>Proton</strong>, a compatibility layer that catches Windows DirectX commands and translates them into Linux Vulkan commands in real-time. The performance overhead is often less than 2%, and sometimes games run even faster than on Windows due to less OS bloat.</p>
                     <ol>
-                        <li>Install Steam from your App Center.</li>
+                        <li>Install Steam.</li>
                         <li>Open Steam Settings -> Compatibility.</li>
-                        <li>Check the box: <strong>"Enable Steam Play for all other titles"</strong>.</li>
-                        <li>Click Install on your Windows games. They will just run.</li>
+                        <li>Check the box for <strong>"Enable Steam Play for all other titles"</strong>.</li>
+                        <li>Restart Steam. You can now install and play your Windows games!</li>
                     </ol>
-                    <p>Check <a href="https://www.protondb.com/" target="_blank" style="color: var(--primary);">ProtonDB.com</a> to see how well specific games run. Over 80% of the top 1000 Steam games are rated "Gold" or "Platinum".</p>
+                    <p>Always check <a href="https://www.protondb.com/" target="_blank" class="highlight">ProtonDB.com</a> to see community ratings (Platinum, Gold, Silver) for how well a specific game runs.</p>
 
-                    <h3>Epic Games, GOG, and Amazon Games</h3>
-                    <p>Do not try to install the official Epic Games launcher. Instead, open your Linux App Center and install the <strong>Heroic Games Launcher</strong>. It is an open-source client that logs into your Epic/GOG/Amazon accounts and downloads your games, automatically applying the Proton translation layer so they run perfectly on Linux.</p>
+                    <h3>Epic Games, GOG, and Amazon</h3>
+                    <p>Do not attempt to install the Windows Epic Games launcher. Instead, open your Linux App Center and download the <strong>Heroic Games Launcher</strong> or <strong>Lutris</strong>. These native Linux apps log into your Epic/GOG accounts, download the games, and automatically configure Proton/WINE for you.</p>
 
-                    <div class="alert-box alert-warning">
-                        <strong>The Anti-Cheat Wall:</strong> The only genre that struggles on Linux is competitive multiplayer games that use kernel-level anti-cheat (e.g., Valorant, Destiny 2, Rainbow Six Siege, Fortnite). The publishers actively block Linux to prevent cheating. If you play these daily, you MUST keep a Windows Dual-Boot.
+                    <div class="alert-box alert-danger">
+                        <strong>The Anti-Cheat Wall:</strong> The ONLY games that fail on Linux are competitive multiplayer games utilizing intrusive Kernel-Level Anti-Cheat (e.g., Valorant, Destiny 2, Rainbow Six Siege, Fortnite). The developers actively block Linux. If these are your main games, you MUST Dual-Boot Windows.
                     </div>
+                </div>
+            </section>
+
+            <section id="vms" class="wiki-section">
+                <div class="section-header">
+                    <h2>Virtual Machines (Testing the Waters)</h2>
+                    <span class="read-time">⏱️ 4 Min Read</span>
+                </div>
+                <p>Want to try Linux but are terrified of breaking your Windows PC? Use a Virtual Machine (VM). A VM acts like a computer running inside an app window on your current OS.</p>
+                
+                <div class="card">
+                    <h3>How to Test Linux inside Windows</h3>
+                    <p>Download and install <strong>VirtualBox</strong> on Windows. Download a Linux `.iso` file. Create a new VM, assign it 4GB of RAM and 20GB of virtual storage, and point it to the `.iso`. You can now install and use Linux inside a window. It cannot harm your host PC.</p>
+                    
+                    <h3>How to Run Windows inside Linux</h3>
+                    <p>Once you switch to Linux, you might occasionally need a specific Windows program (like a niche tax software). Instead of dual-booting, you can run Windows inside a VM on Linux!</p>
+                    <p>Install <strong>GNOME Boxes</strong> or <strong>Virt-Manager</strong> (which uses KVM/QEMU, native to the Linux kernel for near-native performance). You can install Windows 11 in a window, do your tax return, and shut it down. Best of both worlds.</p>
                 </div>
             </section>
 
             <section id="dualboot" class="wiki-section">
-                <h2>Advanced: Dual Booting (Windows + Linux)</h2>
-                <p>Need Windows for Valorant or Adobe, but want Linux for privacy, coding, and daily driving? Dual booting is the answer.</p>
+                <div class="section-header">
+                    <h2>Advanced: Dual Booting (Win + Lin)</h2>
+                    <span class="read-time">⏱️ 6 Min Read</span>
+                </div>
+                <p>If you need Windows for Valorant or Adobe Premiere, but want Linux for programming and daily privacy, you need a Dual Boot setup. This installs both systems on the same PC.</p>
                 
                 <div class="card">
-                    <h3>The Concept</h3>
-                    <p>You split your hard drive into two sections (partitions). Windows lives in one, Linux in the other. When you turn on your PC, a menu called <strong>GRUB</strong> asks you which system to start.</p>
-                    
-                    <h3>Step-by-Step Guide</h3>
+                    <h3>The Architecture (GRUB)</h3>
+                    <p>When you dual boot, Linux installs a bootloader called <strong>GRUB</strong>. When you turn on your PC, before any OS loads, a black screen with white text will appear for 5 seconds, asking you to use your arrow keys to select either Windows or Linux.</p>
+
+                    <h3>The Step-by-Step Guide</h3>
                     <ol>
-                        <li><strong>In Windows:</strong> Right-click the Start button -> "Disk Management".</li>
-                        <li>Right-click your C: Drive and select "Shrink Volume".</li>
-                        <li>Enter the amount to shrink (e.g., `60000` MB for 60GB). Click Shrink. You now have "Unallocated Space".</li>
-                        <li>Insert your Linux USB and boot into the Live Environment.</li>
-                        <li>Run the Linux Installer.</li>
-                        <li>When asked "Installation Type", select the option: <strong>"Install Linux alongside Windows Boot Manager"</strong>. The installer is smart enough to find the Unallocated Space and put Linux exactly there without touching Windows.</li>
-                        <li>Finish the install and reboot. You will see the GRUB boot menu!</li>
+                        <li><strong>In Windows:</strong> Open "Disk Management". Right-click your main `C:` drive and select "Shrink Volume". Shrink it by at least 60,000 MB (60 GB) to create "Unallocated Space". Do not format this space.</li>
+                        <li><strong>In BIOS:</strong> Disable "Secure Boot" temporarily to ensure smooth installation of third-party drivers.</li>
+                        <li><strong>Boot the USB:</strong> Start the Linux Live Environment from your USB stick.</li>
+                        <li><strong>The Installer:</strong> When the Linux installer asks how you want to install, select <strong>"Install Linux alongside Windows Boot Manager"</strong>. </li>
+                        <li>The installer will automatically detect the Unallocated Space you created and slot Linux perfectly into it, without overwriting your Windows partition.</li>
                     </ol>
-                    <div class="alert-box alert-info">
-                        <strong>Note on Time Desync:</strong> Windows and Linux read the hardware clock differently. After dual-booting, your Windows clock might be off by a few hours. To fix this, open the Linux terminal and run: <br><code>timedatectl set-local-rtc 1 --adjust-system-clock</code>
+
+                    <div class="alert-box alert-warning">
+                        <strong>The Clock Desync Bug:</strong> Windows assumes the hardware motherboard clock is in Local Time. Linux assumes the motherboard clock is in UTC time. If you dual boot, your Windows clock will constantly be a few hours wrong. To fix this, boot into Linux, open the terminal, and tell Linux to use Local Time:
+                        <div class="code-wrapper">
+                            <pre><code>timedatectl set-local-rtc 1 --adjust-system-clock</code></pre>
+                        </div>
                     </div>
+                </div>
+            </section>
+
+            <section id="backups" class="wiki-section">
+                <div class="section-header">
+                    <h2>Backup Strategies (The 3-2-1 Rule)</h2>
+                    <span class="read-time">⏱️ 4 Min Read</span>
+                </div>
+                <p>On Linux, you have full control. If you run a command to delete everything, it will delete everything. Backups are non-negotiable.</p>
+                
+                <div class="card">
+                    <h3>The 3-2-1 Backup Philosophy</h3>
+                    <ul>
+                        <li><strong>3</strong> Copies of your data.</li>
+                        <li><strong>2</strong> Different physical media types (e.g., Internal Drive + External USB Drive).</li>
+                        <li><strong>1</strong> Copy stored off-site (e.g., Cloud storage or a hard drive at a friend's house).</li>
+                    </ul>
+
+                    <h3>System Backups vs. Data Backups</h3>
+                    <p><strong>System Backups (Timeshift):</strong> As discussed in the post-install guide, Timeshift takes snapshots of your OS configuration. It specifically excludes your `/home` folder so that restoring a broken system doesn't accidentally overwrite your recent documents.</p>
+                    <p><strong>Data Backups (Deja Dup / Borg):</strong> For your personal files, use an app like <strong>Deja Dup</strong> (often called simply "Backups" in GNOME) or <strong>Vorta</strong> (a GUI for BorgBackup). These tools encrypt your personal files, compress them, and sync them to an external drive or cloud server on a daily schedule automatically.</p>
                 </div>
             </section>
 
             <section id="terminal" class="wiki-section">
-                <h2>Demystifying the Terminal</h2>
-                <p>You don't <em>have</em> to use the terminal in modern Linux, but it's often the fastest way to get things done. It is not scary. It is just a text-based way to talk to your computer.</p>
+                <div class="section-header">
+                    <h2>Terminal & Network Basics</h2>
+                    <span class="read-time">⏱️ 7 Min Read</span>
+                </div>
+                <p>The GUI is for clicking, the Terminal is for talking directly to the machine. You will find that typing a command is often 10x faster than navigating through five settings menus.</p>
                 
                 <div class="card">
-                    <h3>Essential Survival Commands</h3>
+                    <h3>Navigation Survival Kit</h3>
                     <div class="table-responsive">
                         <table>
-                            <tr><th>Command</th><th>What it does</th><th>Windows Equivalent</th></tr>
-                            <tr><td><code>pwd</code></td><td>Prints Working Directory (Where am I right now?)</td><td>Looking at the folder path in Explorer</td></tr>
-                            <tr><td><code>ls</code></td><td>Lists files and folders in the current directory</td><td><code>dir</code> command</td></tr>
-                            <tr><td><code>cd Downloads</code></td><td>Changes Directory (moves you into the Downloads folder)</td><td>Double-clicking a folder</td></tr>
-                            <tr><td><code>cd ..</code></td><td>Moves UP one directory</td><td>The "Back" arrow button</td></tr>
-                            <tr><td><code>sudo</code></td><td>"SuperUser DO". Gives administrator rights for the next command. You will be asked for your password (typing it won't show asterisks, this is normal security!).</td><td>"Run as Administrator" prompt</td></tr>
+                            <thead>
+                                <tr><th>Command</th><th>Explanation</th><th>Analogy</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td><code>pwd</code></td><td>Print Working Directory. Outputs your exact path.</td><td>Looking at the URL bar in a browser.</td></tr>
+                                <tr><td><code>ls -la</code></td><td>Lists all files (including hidden ones starting with a dot).</td><td>Opening a folder in Explorer.</td></tr>
+                                <tr><td><code>cd Documents</code></td><td>Change Directory. Moves you inside the Documents folder.</td><td>Double-clicking a folder.</td></tr>
+                                <tr><td><code>cd ..</code></td><td>Moves you UP one level to the parent folder.</td><td>Clicking the "Back" arrow.</td></tr>
+                                <tr><td><code>mkdir MyFolder</code></td><td>Make Directory. Creates a new folder.</td><td>Right-click -> New Folder.</td></tr>
+                            </tbody>
                         </table>
                     </div>
 
-                    <h3>Installing Software via Terminal</h3>
-                    <p>Instead of hunting for `.exe` files on ad-filled websites, Linux uses "Package Managers" (like an App Store for the terminal). Example for Debian/Ubuntu/Mint systems (using <code>apt</code>):</p>
-                    <pre><code>sudo apt update
-sudo apt install vlc</code></pre>
-                    <p>Boom. VLC Media Player is downloaded from official servers and installed. To remove it: <code>sudo apt remove vlc</code>.</p>
+                    <h3>Networking Basics</h3>
+                    <p>If your internet stops working, the terminal is your best diagnostic tool.</p>
+                    <ul>
+                        <li><strong>Check your IP Address:</strong> Instead of `ipconfig` (Windows), type:
+                            <div class="code-wrapper"><pre><code>ip a</code></pre></div>
+                        </li>
+                        <li><strong>Test Internet Connection:</strong> Sends packets to Google's DNS servers to see if they reply.
+                            <div class="code-wrapper"><pre><code>ping 8.8.8.8</code></pre></div>
+                            <em>Press <code>Ctrl + C</code> to stop the pinging process!</em>
+                        </li>
+                    </ul>
+
+                    <h3>Package Management (APT/DNF/Pacman)</h3>
+                    <p>Depending on your distribution family (Debian/Ubuntu, Fedora, or Arch), you install software via terminal differently:</p>
+                    <div class="code-wrapper">
+                        <pre><code># On Debian / Ubuntu / Mint
+sudo apt install vlc
+
+# On Fedora / Nobara
+sudo dnf install vlc
+
+# On Arch / SteamOS
+sudo pacman -S vlc</code></pre>
+                    </div>
+                </div>
+            </section>
+
+            <section id="troubleshooting" class="wiki-section">
+                <div class="section-header">
+                    <h2>Troubleshooting (SOS & REISUB)</h2>
+                    <span class="read-time">⏱️ 5 Min Read</span>
+                </div>
+                <p>Welcome to the rite of passage. Something will freeze. An app will crash. Do not panic and hold the power button; that causes data corruption. Linux provides powerful emergency exits.</p>
+                
+                <div class="card">
+                    <h3>Level 1: Killing an Unresponsive App</h3>
+                    <p>If an app freezes, open the terminal and type <code>xkill</code>. Your mouse cursor will turn into an "X" or a skull. Click anywhere on the frozen app's window, and the kernel will instantly terminate its process.</p>
+
+                    <h3>Level 2: The GUI is Completely Frozen (The TTY Drop)</h3>
+                    <p>If your mouse won't move, the graphical interface (DE) has crashed, but the underlying OS is likely still running fine. Press:</p>
+                    <div class="code-wrapper"><pre><code>Ctrl + Alt + F3</code></pre></div>
+                    <p>This drops you out of the matrix into a pure, black terminal interface (TTY3). Log in with your username and password. You can now type <code>top</code> or <code>htop</code> to find the frozen process, or type <code>sudo reboot</code> to restart the computer safely.</p>
+
+                    <h3>Level 3: The Magic SysRq Key (REISUB)</h3>
+                    <p>If even the TTY shortcut fails, the kernel is still listening to hardware interrupts via the System Request key (Print Screen). Hold down <code>Alt + PrtScrn</code> and, while holding them, slowly type the letters <strong>R E I S U B</strong>. Leave about one second between each letter.</p>
+                    <ul>
+                        <li><strong>R</strong> (Raw): Takes control of the keyboard back from the frozen GUI.</li>
+                        <li><strong>E</strong> (Terminate): Sends a polite termination signal to all processes.</li>
+                        <li><strong>I</strong> (Kill): Sends a brutal kill signal to processes that refused to terminate.</li>
+                        <li><strong>S</strong> (Sync): <strong>CRUCIAL.</strong> Flushes all unsaved data from RAM onto the hard drive, preventing corruption!</li>
+                        <li><strong>U</strong> (Unmount): Safely unmounts your hard drives to read-only mode.</li>
+                        <li><strong>B</strong> (Boot): Hard reboots the PC safely.</li>
+                    </ul>
                 </div>
             </section>
 
             <section id="glossary" class="wiki-section">
-                <h2>The Complete Linux Glossary</h2>
+                <div class="section-header">
+                    <h2>The Linux Glossary</h2>
+                    <span class="read-time">⏱️ 5 Min Read</span>
+                </div>
                 <div class="card">
-                    <p>The Linux community uses a lot of jargon. Here is your translation manual:</p>
+                    <p>The Linux community uses a lot of technical jargon. Here is your definitive translation manual:</p>
                     <ul>
-                        <li><strong>Distro (Distribution):</strong> A specific flavor of Linux. It's the Linux kernel bundled with a desktop interface and pre-installed apps. (e.g., Ubuntu, Fedora, Pop!_OS).</li>
-                        <li><strong>Kernel:</strong> The core engine of the OS. It talks directly to your CPU, RAM, and hardware drivers.</li>
-                        <li><strong>DE (Desktop Environment):</strong> The visual GUI. The taskbar, the start menu, the window borders. (e.g., GNOME, KDE Plasma, XFCE). You can install multiple DEs on one Linux system!</li>
-                        <li><strong>Wayland:</strong> The modern display protocol that draws pixels on your screen. It handles multi-monitor HDR and different refresh rates natively, replacing the legacy <em>X11</em>.</li>
-                        <li><strong>PipeWire:</strong> The modern audio and video handling system. If your Bluetooth headphones switch seamlessly, thank PipeWire.</li>
-                        <li><strong>Flatpak:</strong> The modern way to package apps. It's a universal file format that works on ANY distro and is sandboxed for security.</li>
-                        <li><strong>Snap:</strong> Canonical's (Ubuntu's maker) alternative to Flatpak. Many users prefer Flatpak because it is completely decentralized.</li>
-                        <li><strong>AppImage:</strong> A portable app format. You download one file, make it executable, and double-click it to run. No installation required. (Similar to Windows Portable apps).</li>
-                        <li><strong>Repository (Repo):</strong> A secure, official server maintained by your Distro where all verified software is downloaded from.</li>
-                        <li><strong>GRUB:</strong> The Grand Unified Bootloader. The menu you see when turning on a dual-boot PC.</li>
+                        <li><strong>Distro (Distribution):</strong> A specific flavor of Linux (Ubuntu, Fedora, Arch). It consists of the Kernel + a Package Manager + a Desktop Environment.</li>
+                        <li><strong>Kernel:</strong> The absolute core engine of the OS. It manages the CPU, RAM, and hardware drivers. Linus Torvalds manages the Linux kernel.</li>
+                        <li><strong>DE (Desktop Environment):</strong> The visual GUI. The taskbar, windows, and settings apps. Popular ones are GNOME (macOS-like workflow), KDE Plasma (highly customizable, Windows-like), and XFCE (ultra-lightweight).</li>
+                        <li><strong>Wayland:</strong> The modern display server protocol. It handles drawing windows on your screen, supporting multi-monitor HDR and mixed refresh rates natively. It replaced the 40-year-old <strong>X11</strong> protocol.</li>
+                        <li><strong>PipeWire:</strong> The modern audio/video server. It replaced PulseAudio. If your Bluetooth headphones switch seamlessly without lag, thank PipeWire.</li>
+                        <li><strong>Flatpak:</strong> The modern way to install apps. It's a universal package that works on ANY distro. Apps are "sandboxed", meaning they cannot access your personal files or system files without explicit permission.</li>
+                        <li><strong>Snap:</strong> Canonical's (the makers of Ubuntu) alternative to Flatpak. Many users dislike Snaps because the backend server is proprietary to Canonical, whereas Flatpak is decentralized.</li>
+                        <li><strong>AppImage:</strong> A portable app format. You download a single file, right-click to make it executable, and double-click to run it. No installation needed.</li>
+                        <li><strong>Repo (Repository):</strong> A secure, official server maintained by your Distro where all verified software is downloaded from via the package manager.</li>
+                        <li><strong>GRUB:</strong> The Grand Unified Bootloader. The menu you see when turning on a dual-boot PC that lets you choose the OS.</li>
+                        <li><strong>Root:</strong> The supreme administrator account. Also refers to the base directory of the file system (`/`).</li>
                     </ul>
                 </div>
             </section>
@@ -538,7 +801,7 @@ sudo apt install vlc</code></pre>
     </div>
 
     <script>
-        // --- 1. THEME LOGIC ---
+        // --- 1. THEME MANAGEMENT ---
         function initTheme() {
             const savedTheme = localStorage.getItem('linux-wiki-theme');
             if (savedTheme === 'light' || (!savedTheme && window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches)) {
@@ -551,106 +814,187 @@ sudo apt install vlc</code></pre>
         }
         initTheme();
 
-        // --- 2. HASH ROUTING & TAB LOGIC (BUGFIX/NEW FEATURE) ---
-        function switchTab(tabId) {
-            // Hide all sections
+        // --- 2. COPY TO CLIPBOARD GENERATOR ---
+        // Dynamically adds a copy button to every pre>code block
+        document.addEventListener('DOMContentLoaded', () => {
+            const codeBlocks = document.querySelectorAll('.code-wrapper');
+            codeBlocks.forEach((wrapper) => {
+                const button = document.createElement('button');
+                button.className = 'copy-btn';
+                button.innerText = 'Copy';
+                
+                button.addEventListener('click', () => {
+                    const codeText = wrapper.querySelector('code').innerText;
+                    navigator.clipboard.writeText(codeText).then(() => {
+                        button.innerText = 'Copied!';
+                        button.classList.add('copied');
+                        setTimeout(() => {
+                            button.innerText = 'Copy';
+                            button.classList.remove('copied');
+                        }, 2000);
+                    });
+                });
+                wrapper.appendChild(button);
+            });
+        });
+
+        // --- 3. ROBUST ROUTING LOGIC ---
+        function switchTab(tabId, pushHistory = true) {
             document.querySelectorAll('.wiki-section').forEach(sec => sec.classList.remove('active'));
-            // Remove active class from buttons
             document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
             
-            // Show target section
             const targetSection = document.getElementById(tabId);
             if(targetSection) targetSection.classList.add('active');
             
-            // Highlight active button
             const targetBtn = document.querySelector(`.nav-btn[data-target="${tabId}"]`);
             if(targetBtn) targetBtn.classList.add('active');
             
-            // Update URL Hash without jumping the page unpleasantly
-            history.replaceState(null, null, `#${tabId}`);
+            if(pushHistory) {
+                history.pushState({ tab: tabId }, null, `#${tabId}`);
+            }
             
-            // On mobile, scroll back to top of main content area gently
-            if(window.innerWidth <= 900) {
-                window.scrollTo({ top: document.querySelector('main').offsetTop - 20, behavior: 'smooth' });
-            }
+            // Scroll to top of main content gently
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        // Initialize Router on Page Load
-        function handleRouting() {
-            const hash = window.location.hash.substring(1); // remove '#'
-            if(hash && document.getElementById(hash)) {
-                switchTab(hash);
-            } else {
-                switchTab('home'); // Default
-            }
-        }
-        window.addEventListener('load', handleRouting);
-        window.addEventListener('hashchange', handleRouting); // Handle back/forward browser buttons
+        window.addEventListener('popstate', (event) => {
+            if(event.state && event.state.tab) { switchTab(event.state.tab, false); } 
+            else { handleRouting(false); }
+        });
 
-        // --- 3. REAL-TIME SEARCH LOGIC (NEW FEATURE) ---
+        function handleRouting(pushHistory = true) {
+            const hash = window.location.hash.substring(1);
+            if(hash && document.getElementById(hash)) { switchTab(hash, pushHistory); } 
+            else { switchTab('home', pushHistory); }
+        }
+        window.addEventListener('load', () => handleRouting(false));
+
+        // --- 4. PROGRESS TRACKER & GAMIFICATION ---
+        const checkboxes = document.querySelectorAll('.tracker-cb');
+        const progressFill = document.getElementById('progress-fill');
+        const progressCount = document.getElementById('progress-count');
+        const progressPercent = document.getElementById('progress-percent');
+        const certBanner = document.getElementById('cert-banner');
+
+        function initProgress() {
+            checkboxes.forEach(cb => {
+                const savedState = localStorage.getItem(`ll-task-${cb.id}`);
+                if(savedState === 'true') {
+                    cb.checked = true;
+                    document.getElementById(`content-${cb.id}`).classList.add('completed-text');
+                }
+            });
+            updateProgressCalculations();
+        }
+
+        function updateProgress() {
+            checkboxes.forEach(cb => {
+                localStorage.setItem(`ll-task-${cb.id}`, cb.checked);
+                const contentDiv = document.getElementById(`content-${cb.id}`);
+                if(cb.checked) contentDiv.classList.add('completed-text');
+                else contentDiv.classList.remove('completed-text');
+            });
+            updateProgressCalculations();
+        }
+
+        function updateProgressCalculations() {
+            const total = checkboxes.length;
+            const checked = document.querySelectorAll('.tracker-cb:checked').length;
+            const percentage = Math.round((checked / total) * 100);
+            
+            progressFill.style.width = `${percentage}%`;
+            progressCount.innerText = checked;
+            progressPercent.innerText = `${percentage}%`;
+
+            if(percentage === 100) { certBanner.style.display = 'block'; } 
+            else { certBanner.style.display = 'none'; }
+        }
+        initProgress();
+
+        // --- 5. ADVANCED SEARCH WITH HIT COUNTERS ---
         function performSearch() {
             const query = document.getElementById('search-input').value.toLowerCase();
             const sections = document.querySelectorAll('.wiki-section');
             const navBtns = document.querySelectorAll('.nav-btn');
 
             if(query.length < 2) {
-                // Reset search highlights if query is too short
-                navBtns.forEach(btn => {
-                    btn.style.borderLeftColor = 'transparent';
-                    btn.style.opacity = '1';
+                navBtns.forEach(btn => { 
+                    btn.style.opacity = '1'; 
+                    btn.querySelector('.match-badge').style.display = 'none';
                 });
                 return;
             }
 
-            // Check which sections contain the text
             sections.forEach(sec => {
                 const text = sec.innerText.toLowerCase();
                 const tabId = sec.id;
                 const btn = document.querySelector(`.nav-btn[data-target="${tabId}"]`);
+                const badge = btn.querySelector('.match-badge');
                 
                 if(!btn) return;
 
-                if(text.includes(query)) {
+                // Simple hit counter logic (count occurrences of query)
+                const hits = text.split(query).length - 1;
+
+                if(hits > 0) {
                     btn.style.opacity = '1';
-                    btn.style.borderLeftColor = 'var(--success)'; // Highlight green
+                    badge.innerText = hits;
+                    badge.style.display = 'inline-block';
                 } else {
-                    btn.style.opacity = '0.3'; // Dim buttons that don't have the answer
-                    btn.style.borderLeftColor = 'transparent';
+                    btn.style.opacity = '0.3';
+                    badge.style.display = 'none';
                 }
             });
         }
 
-        // --- 4. QUIZ LOGIC ---
-        let userExp = '';
-        function setExp(level) {
-            userExp = level;
-            document.getElementById('quiz-step-1').classList.add('hidden');
-            document.getElementById('quiz-step-2').classList.remove('hidden');
+        // --- 6. ADVANCED MULTI-STEP QUIZ ---
+        let quizState = { exp: '', age: '', goal: '' };
+        
+        function nextQuizStep(step) {
+            document.querySelectorAll('[id^="quiz-step-"]').forEach(el => el.classList.add('hidden'));
+            document.getElementById(`quiz-step-${step}`).classList.remove('hidden');
         }
 
-        function calcResult(goal) {
-            document.getElementById('quiz-step-2').classList.add('hidden');
-            const resBox = document.getElementById('quiz-result');
-            resBox.classList.remove('hidden');
-
+        function calculateQuiz() {
+            document.querySelectorAll('[id^="quiz-step-"]').forEach(el => el.classList.add('hidden'));
+            document.getElementById('quiz-result').classList.remove('hidden');
+            
             const title = document.getElementById('res-title');
             const desc = document.getElementById('res-desc');
 
-            if(userExp === 'beginner') {
-                if(goal === 'gaming') { title.innerText = "🎮 Pop!_OS or Bazzite"; desc.innerHTML = "Bazzite turns your PC into a console-like experience (like the Steam Deck). Pop!_OS is amazing if you have an NVIDIA graphics card and want a normal desktop workflow."; }
-                else if(goal === 'work') { title.innerText = "🏢 Linux Mint (Cinnamon)"; desc.innerHTML = "The most stable, Windows-like transition you can make. It comes with everything you need out of the box and will never force an update on you."; }
-                else if(goal === 'old') { title.innerText = "♻️ Linux Mint XFCE or Lubuntu"; desc.innerHTML = "These use extremely lightweight interfaces. They idle at under 1GB of RAM and run perfectly on laptops that are 10 to 15 years old."; }
+            // Evaluation Matrix
+            if(quizState.exp === 'beginner') {
+                if(quizState.age === 'old') {
+                    title.innerText = "♻️ Linux Mint XFCE Edition";
+                    desc.innerText = "Because your hardware is older, you need something lightweight. XFCE runs on practically nothing (under 1GB RAM) but gives you a robust, Windows-like experience that won't confuse you.";
+                } else {
+                    if(quizState.goal === 'gaming') {
+                        title.innerText = "🎮 Bazzite";
+                        desc.innerText = "Bazzite is an immutable distro designed specifically for gaming. It turns your PC into a console-like experience, identical to the Steam Deck. It is unbreakable and handles NVIDIA/AMD perfectly.";
+                    } else {
+                        title.innerText = "🏢 Linux Mint Cinnamon";
+                        desc.innerText = "The undisputed king of stability. It looks and feels like Windows 7/10, comes with all media codecs, and never forces an update. It stays out of your way so you can get work done.";
+                    }
+                }
             } else {
-                if(goal === 'gaming') { title.innerText = "🔥 Nobara Linux or Arch"; desc.innerHTML = "Nobara offers custom gaming kernel patches out of the box. Arch is for ultimate control, allowing you to build your gaming rig from the command line up."; }
-                else if(goal === 'work') { title.innerText = "⚙️ Fedora Workstation"; desc.innerHTML = "Cutting-edge tools for developers, offering the pure, vanilla GNOME workflow experience. Highly respected in the enterprise world."; }
-                else if(goal === 'old') { title.innerText = "🛠️ Debian Minimal"; desc.innerHTML = "Install rock-solid Debian without a Desktop Environment. Build it up with a Tiling Window Manager like i3 or Sway for maximum efficiency."; }
+                if(quizState.age === 'old') {
+                    title.innerText = "🛠️ Debian Minimal Install";
+                    desc.innerText = "Since you know what you are doing, install pure Debian without a Desktop Environment. Build it up yourself using a Tiling Window Manager like i3 or Sway to extract maximum performance from that old hardware.";
+                } else {
+                    if(quizState.goal === 'gaming') {
+                        title.innerText = "🔥 Nobara Linux or Arch";
+                        desc.innerText = "Nobara offers custom kernel patches specifically aimed at reducing latency and improving gaming frame rates. If you want the ultimate challenge and rolling-release packages, build Arch Linux.";
+                    } else {
+                        title.innerText = "⚙️ Fedora Workstation";
+                        desc.innerText = "The sweet spot for developers. Fedora provides cutting-edge packages and a pure, vanilla GNOME experience. It is the upstream for Red Hat, making it incredibly well-respected and reliable.";
+                    }
+                }
             }
         }
 
-        function resetQ() {
-            userExp = '';
+        function resetQuiz() {
+            quizState = { exp: '', age: '', goal: '' };
             document.getElementById('quiz-result').classList.add('hidden');
-            document.getElementById('quiz-step-2').classList.add('hidden');
             document.getElementById('quiz-step-1').classList.remove('hidden');
         }
     </script>
