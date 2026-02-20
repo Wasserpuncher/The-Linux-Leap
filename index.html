@@ -3,166 +3,379 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Linux Leap - Your Guide to Switching OS</title>
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline'; img-src 'self' data: https:;">
+    <meta name="description" content="The ultimate, 100% fact-based guide to switching to Linux. Discover your perfect distro, learn the architecture, and make the leap.">
+    
+    <title>The Linux Leap | V2.0 Ultimate Guide</title>
+    
     <style>
+        /* CSS Variables for seamless Dark/Light Mode switching */
         :root {
-            --primary: #f3a600; /* Linux Penguin Yellow */
-            --bg-dark: #121212;
+            --primary: #f3a600; 
+            --primary-hover: #d18f00;
+            --bg-color: #121212;
             --bg-card: #1e1e1e;
             --text-main: #e0e0e0;
+            --text-muted: #a0a0a0;
+            --border-color: #333;
+            --danger: #ff5252;
+            --success: #69f0ae;
+            --transition-speed: 0.3s;
         }
+
+        .light-mode {
+            --primary: #e65100;
+            --primary-hover: #bf360c;
+            --bg-color: #f5f7fa;
+            --bg-card: #ffffff;
+            --text-main: #2d3748;
+            --text-muted: #718096;
+            --border-color: #e2e8f0;
+            --danger: #e53e3e;
+            --success: #38a169;
+        }
+
+        /* Core Typography and Reset */
+        *, *::before, *::after {
+            box-sizing: border-box;
+        }
+        
         body {
-            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            background-color: var(--bg-dark);
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: var(--bg-color);
             color: var(--text-main);
-            line-height: 1.6;
+            line-height: 1.7;
             margin: 0;
             padding: 0;
+            transition: background-color var(--transition-speed), color var(--transition-speed);
         }
+
+        /* Layout & Header */
         header {
             background-color: var(--bg-card);
-            padding: 40px 20px;
+            padding: 50px 20px;
             text-align: center;
-            border-bottom: 3px solid var(--primary);
+            border-bottom: 4px solid var(--primary);
+            position: relative;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            transition: background-color var(--transition-speed);
         }
-        h1 { color: var(--primary); margin-top: 0; }
-        .container {
+
+        .header-content {
             max-width: 900px;
+            margin: 0 auto;
+        }
+
+        h1 { 
+            color: var(--primary); 
+            font-size: 3rem;
+            margin-bottom: 10px;
+            letter-spacing: -1px;
+        }
+        
+        h2 { color: var(--primary); border-bottom: 2px solid var(--border-color); padding-bottom: 10px; }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            font-weight: 300;
+        }
+
+        /* Theme Toggle Button */
+        #theme-toggle {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        #theme-toggle:hover {
+            background: var(--primary);
+            color: var(--bg-color);
+        }
+
+        /* Main Content Container */
+        main {
+            max-width: 1000px;
             margin: 40px auto;
             padding: 0 20px;
         }
+
         .card {
             background-color: var(--bg-card);
-            padding: 30px;
-            border-radius: 8px;
-            margin-bottom: 30px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+            padding: 40px;
+            border-radius: 12px;
+            margin-bottom: 40px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.05);
+            transition: transform 0.2s, background-color var(--transition-speed);
         }
-        button {
-            background-color: var(--primary);
-            color: #000;
-            border: none;
-            padding: 12px 24px;
-            font-size: 1.1em;
-            font-weight: bold;
-            border-radius: 4px;
-            cursor: pointer;
-            margin: 10px 5px;
-            transition: 0.2s;
-        }
-        button:hover { opacity: 0.8; }
-        .hidden { display: none; }
+        
+        .card:hover { transform: translateY(-2px); }
+
+        /* Tables */
         table {
             width: 100%;
             border-collapse: collapse;
             margin-top: 20px;
+            background-color: var(--bg-color);
+            border-radius: 8px;
+            overflow: hidden;
         }
+        
         th, td {
-            padding: 12px;
+            padding: 16px;
             text-align: left;
-            border-bottom: 1px solid #333;
+            border-bottom: 1px solid var(--border-color);
         }
-        th { color: var(--primary); }
-        .warning { color: #ff5252; font-weight: bold; }
-        .success { color: #69f0ae; font-weight: bold; }
+        
+        th { 
+            background-color: var(--border-color);
+            color: var(--text-main); 
+            font-weight: 600;
+        }
+
+        /* Utility Classes */
+        .warning { color: var(--danger); font-weight: bold; }
+        .success { color: var(--success); font-weight: bold; }
+        .hidden { display: none !important; }
+
+        /* Quiz UI */
+        .quiz-container {
+            border: 2px dashed var(--border-color);
+            padding: 30px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .btn {
+            background-color: var(--primary);
+            color: #fff;
+            border: none;
+            padding: 14px 28px;
+            font-size: 1.1em;
+            font-weight: bold;
+            border-radius: 6px;
+            cursor: pointer;
+            margin: 10px;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+        }
+        
+        .light-mode .btn { color: #fff; }
+        
+        .btn:hover { 
+            background-color: var(--primary-hover); 
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.3);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+        }
+        
+        .btn-outline:hover { background-color: var(--primary); color: #fff; }
+
+        /* Ecosystem Grid */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .grid-item {
+            background-color: var(--bg-color);
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+        }
     </style>
 </head>
 <body>
 
     <header>
-        <h1>The Linux Leap 🐧</h1>
-        <p>A fact-based, no-nonsense guide to ditching your old OS and embracing open-source.</p>
+        <button id="theme-toggle" onclick="toggleTheme()" aria-label="Toggle Dark/Light Mode">🌓 Toggle Theme</button>
+        <div class="header-content">
+            <h1>The Linux Leap 🐧</h1>
+            <p class="subtitle">V2.0 | The uncompromising, 1000% fact-based guide to reclaiming your digital freedom.</p>
+        </div>
     </header>
 
-    <div class="container">
+    <main>
         
-        <div class="card">
-            <h2>1. The Hard Facts: What to Consider</h2>
-            <p>Switching to Linux is great for privacy, speed, and customization. However, let's look at the reality before you jump:</p>
+        <section class="card">
+            <h2>1. The Hard Facts: What to Expect</h2>
+            <p>Switching operating systems is a paradigm shift. Let's look at the absolute reality of running Linux today. No sugarcoating.</p>
             <table>
-                <tr>
-                    <th>Category</th>
-                    <th>The Reality on Linux</th>
-                </tr>
-                <tr>
-                    <td><strong>MS Office</strong></td>
-                    <td>Native apps do <span class="warning">NOT</span> work. You must use web versions (Office 365) or alternatives like LibreOffice or ONLYOFFICE.</td>
-                </tr>
-                <tr>
-                    <td><strong>Adobe Creative Cloud</strong></td>
-                    <td>Photoshop/Premiere do <span class="warning">NOT</span> work natively. Alternatives: DaVinci Resolve (Video), GIMP/Krita (Photo), Figma (UI).</td>
-                </tr>
-                <tr>
-                    <td><strong>Gaming</strong></td>
-                    <td><span class="success">EXCELLENT</span> via Steam Proton. Most Windows games run perfectly. <strong>Exception:</strong> Games with Kernel-level Anti-Cheat (like Valorant or Fortnite) will not work.</td>
-                </tr>
-                <tr>
-                    <td><strong>Hardware Support</strong></td>
-                    <td>Generally plug-and-play. Printers and older hardware often work better on Linux than on Windows 11.</td>
-                </tr>
+                <thead>
+                    <tr>
+                        <th>Software / Category</th>
+                        <th>The Reality on Linux</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>MS Office (Word, Excel)</strong></td>
+                        <td>Native apps do <span class="warning">NOT</span> work. You must use web versions (Office 365) or robust offline alternatives like LibreOffice, ONLYOFFICE, or FreeOffice.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Adobe Creative Cloud</strong></td>
+                        <td>Photoshop/Premiere do <span class="warning">NOT</span> work natively. Alternatives: DaVinci Resolve (Industry standard Video), GIMP/Krita (Photo), Inkscape (Vector).</td>
+                    </tr>
+                    <tr>
+                        <td><strong>PC Gaming</strong></td>
+                        <td><span class="success">EXCELLENT</span> via Steam Proton. The Steam Deck runs Linux! <strong>Exception:</strong> Games with intrusive Kernel-level Anti-Cheat (Valorant, Destiny 2) actively block Linux.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Privacy & Telemetry</strong></td>
+                        <td><span class="success">UNMATCHED</span>. Unlike Windows 11, Linux distributions do not log your keystrokes, sell your usage data, or force you to use an online account.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>HDR & High Refresh Rates</strong></td>
+                        <td>Currently undergoing a massive revolution. While X11 struggled with mixed refresh rates, the modern <strong>Wayland</strong> display protocol handles 144hz+ and HDR beautifully on modern distros.</td>
+                    </tr>
+                </tbody>
             </table>
-        </div>
+        </section>
 
-        <div class="card" id="quiz-container">
-            <h2>2. The Distro Matchmaker</h2>
-            <p>A "Distribution" (Distro) is just the Linux core bundled with a specific user interface and pre-installed apps. Let's find yours.</p>
+        <section class="card">
+            <h2>2. Understanding the Ecosystem</h2>
             
-            <div id="question-box">
-                <h3 id="question-text">What is your primary goal?</h3>
-                <div id="btn-group">
-                    <button onclick="nextStep('beginner')">I want it to look/feel like Windows (Beginner)</button>
-                    <button onclick="nextStep('gaming')">I want to play PC Games</button>
-                    <button onclick="nextStep('oldpc')">I want to revive a very old, slow laptop</button>
-                    <button onclick="nextStep('pro')">I am a developer / tech enthusiast</button>
+            <p>Unlike Windows, Linux is modular. You can swap out almost any part of it. The two most important concepts for a beginner are <strong>Desktop Environments</strong> and <strong>Package Managers</strong>.</p>
+            
+            <div class="grid">
+                <div class="grid-item">
+                    <h3>Desktop Environments (DE)</h3>
+                    <p>This is what your OS looks like.</p>
+                    <ul>
+                        <li><strong>GNOME:</strong> Modern, workflow-focused, looks a bit like macOS. (Default in Ubuntu & Fedora)</li>
+                        <li><strong>KDE Plasma:</strong> Highly customizable, looks familiar to Windows users. (Default in SteamOS)</li>
+                        <li><strong>XFCE:</strong> Extremely lightweight, perfect for 15-year-old laptops.</li>
+                    </ul>
+                </div>
+                <div class="grid-item">
+                    <h3>Modern Software (Flatpak)</h3>
+                    <p>Forget hunting for `.exe` files on random websites.</p>
+                    <p>Linux uses centralized App Stores. <strong>Flatpak</strong> is the modern universal standard. It sandboxes apps for security, meaning a downloaded app cannot secretly access your system files without permission.</p>
                 </div>
             </div>
+        </section>
 
-            <div id="result-box" class="hidden">
-                <h3 id="result-title">Your Match: </h3>
-                <p id="result-desc"></p>
-                <button onclick="resetQuiz()">Start Over</button>
+        <section class="card">
+            <h2>3. The Advanced Distro Matchmaker</h2>
+            <p>Answer two critical questions to find your exact match based on our current algorithm.</p>
+            
+            <div class="quiz-container">
+                <div id="quiz-step-1">
+                    <h3>Question 1: What is your Linux experience level?</h3>
+                    <button class="btn" onclick="setExperience('beginner')">Absolute Beginner</button>
+                    <button class="btn" onclick="setExperience('advanced')">Power User / Developer</button>
+                </div>
+
+                <div id="quiz-step-2" class="hidden">
+                    <h3>Question 2: What is your primary hardware/goal?</h3>
+                    <button class="btn btn-outline" onclick="calculateResult('gaming')">Heavy Gaming</button>
+                    <button class="btn btn-outline" onclick="calculateResult('stable')">Maximum Stability (Work/Office)</button>
+                    <button class="btn btn-outline" onclick="calculateResult('oldpc')">Reviving a Potato PC</button>
+                </div>
+
+                <div id="quiz-result" class="hidden">
+                    <h3 id="result-title" style="color: var(--primary); font-size: 1.8rem;"></h3>
+                    <p id="result-desc" style="font-size: 1.1rem; padding: 20px;"></p>
+                    <button class="btn" onclick="resetQuiz()">Recalculate</button>
+                </div>
             </div>
-        </div>
+        </section>
 
-        <div class="card">
-            <h2>3. Your First Meaningful Steps</h2>
-            <ul>
-                <li><strong>Step 1: Back Up Everything.</strong> Put your important files on an external hard drive or in the cloud. Formatting drives deletes everything!</li>
-                <li><strong>Step 2: Get a USB Stick (8GB+).</strong> Download your chosen Linux ISO file and use a tool like <strong>BalenaEtcher</strong> or <strong>Rufus</strong> to flash it onto the USB stick.</li>
-                <li><strong>Step 3: Try the "Live Environment".</strong> You don't have to install Linux right away. Boot from the USB stick and select "Try Linux". It runs from the USB so you can test your Wi-Fi, audio, and the interface without touching your hard drive.</li>
-                <li><strong>Step 4: Install.</strong> Once you are ready, click the "Install" icon on the Live Desktop and follow the simple on-screen instructions.</li>
-            </ul>
-        </div>
+        <section class="card">
+            <h2>4. Your Action Plan</h2>
+            <ol>
+                <li><strong>Back Up Your Data:</strong> Use an external SSD or cloud storage. Assume your drive will be completely wiped.</li>
+                <li><strong>Download an ISO:</strong> Grab the `.iso` file of your chosen distribution from their official website.</li>
+                <li><strong>Flash a USB Drive:</strong> Use a tool like <a href="https://rufus.ie/" target="_blank" style="color: var(--primary);">Rufus (Windows)</a> or BalenaEtcher to write the ISO to an 8GB+ USB stick.</li>
+                <li><strong>Boot into Live Mode:</strong> Restart your PC, enter the BIOS/UEFI (usually F2, F12, or DEL), and boot from the USB. Test the OS *before* installing it!</li>
+                <li><strong>Install:</strong> Click the install icon on the desktop. Let the installer automatically partition your drive.</li>
+            </ol>
+        </section>
 
-    </div>
+    </main>
 
     <script>
-        function nextStep(choice) {
-            document.getElementById('question-box').classList.add('hidden');
-            const resultBox = document.getElementById('result-box');
+        // --- THEME MANAGEMENT ---
+        // Bugfix: Ensuring user preference is saved and respected across reloads
+        function initTheme() {
+            const savedTheme = localStorage.getItem('linux-leap-theme');
+            if (savedTheme === 'light') {
+                document.body.classList.add('light-mode');
+            } else if (!savedTheme && window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) {
+                // Respect system settings if no explicit preference
+                document.body.classList.add('light-mode');
+            }
+        }
+
+        function toggleTheme() {
+            document.body.classList.toggle('light-mode');
+            const isLight = document.body.classList.contains('light-mode');
+            localStorage.setItem('linux-leap-theme', isLight ? 'light' : 'dark');
+        }
+
+        // Initialize theme on load
+        initTheme();
+
+        // --- QUIZ STATE MACHINE ---
+        let userExperience = '';
+
+        function setExperience(level) {
+            userExperience = level;
+            document.getElementById('quiz-step-1').classList.add('hidden');
+            document.getElementById('quiz-step-2').classList.remove('hidden');
+        }
+
+        function calculateResult(goal) {
+            document.getElementById('quiz-step-2').classList.add('hidden');
+            const resultBox = document.getElementById('quiz-result');
             const resultTitle = document.getElementById('result-title');
             const resultDesc = document.getElementById('result-desc');
             
             resultBox.classList.remove('hidden');
 
-            if(choice === 'beginner') {
-                resultTitle.innerText = "Your Match: Linux Mint";
-                resultDesc.innerHTML = "<strong>Linux Mint (Cinnamon Edition)</strong> is the undisputed king for beginners. It looks remarkably similar to Windows, comes with all necessary media codecs pre-installed, and is rock solid. It just works.";
-            } else if(choice === 'gaming') {
-                resultTitle.innerText = "Your Match: Pop!_OS or Bazzite";
-                resultDesc.innerHTML = "<strong>Pop!_OS</strong> has incredible out-of-the-box support for NVIDIA graphics cards. If you want an experience identical to the Steam Deck, check out <strong>Bazzite</strong>, which is purpose-built for gamers.";
-            } else if(choice === 'oldpc') {
-                resultTitle.innerText = "Your Match: Linux Mint XFCE or Lubuntu";
-                resultDesc.innerHTML = "These distributions use lightweight desktop environments. They use very little RAM (often under 1GB at idle) and will make a 10-year-old laptop feel brand new.";
-            } else if(choice === 'pro') {
-                resultTitle.innerText = "Your Match: Fedora or Arch Linux";
-                resultDesc.innerHTML = "<strong>Fedora</strong> offers up-to-date packages and is a favorite among software engineers. If you want to build your OS from scratch and understand how everything works, <strong>Arch Linux</strong> is the ultimate challenge.";
+            // Complex Algorithm mapping Experience + Goal
+            if (userExperience === 'beginner') {
+                if (goal === 'gaming') {
+                    resultTitle.innerText = "🏆 Your Match: Bazzite or Pop!_OS";
+                    resultDesc.innerHTML = "As a beginner gamer, you want things to just work. <strong>Bazzite</strong> gives you a console-like SteamOS experience. <strong>Pop!_OS</strong> is fantastic if you have an NVIDIA card and want a normal desktop workflow alongside gaming.";
+                } else if (goal === 'stable') {
+                    resultTitle.innerText = "🏆 Your Match: Linux Mint (Cinnamon)";
+                    resultDesc.innerHTML = "The undisputed king of stability. <strong>Linux Mint</strong> feels instantly familiar to Windows users, never forces updates, and comes with all the drivers you need to get straight to work.";
+                } else if (goal === 'oldpc') {
+                    resultTitle.innerText = "🏆 Your Match: Linux Mint XFCE";
+                    resultDesc.innerHTML = "By using the lightweight XFCE desktop environment, this version of Mint breathes new life into hardware that is 10+ years old, while remaining incredibly user-friendly.";
+                }
+            } else if (userExperience === 'advanced') {
+                if (goal === 'gaming') {
+                    resultTitle.innerText = "🏆 Your Match: Nobara Linux or Arch";
+                    resultDesc.innerHTML = "<strong>Nobara</strong> is a modified version of Fedora built by a legendary Linux gaming developer (GloriousEggroll). If you want absolute control and rolling updates, build an <strong>Arch Linux</strong> system.";
+                } else if (goal === 'stable') {
+                    resultTitle.innerText = "🏆 Your Match: Fedora Workstation";
+                    resultDesc.innerHTML = "<strong>Fedora</strong> is the sweet spot for developers. It offers very modern packages, the vanilla GNOME experience, and serves as the upstream for Red Hat Enterprise Linux. It's cutting-edge but highly reliable.";
+                } else if (goal === 'oldpc') {
+                    resultTitle.innerText = "🏆 Your Match: Debian with a Tiling Window Manager";
+                    resultDesc.innerHTML = "Since you know what you're doing, install rock-solid <strong>Debian</strong> and strip out the desktop environment entirely. Use a Tiling Window Manager like i3 or Sway for maximum efficiency and minimum RAM usage (under 300MB).";
+                }
             }
         }
 
         function resetQuiz() {
-            document.getElementById('result-box').classList.add('hidden');
-            document.getElementById('question-box').classList.remove('hidden');
+            userExperience = '';
+            document.getElementById('quiz-result').classList.add('hidden');
+            document.getElementById('quiz-step-1').classList.remove('hidden');
         }
     </script>
 </body>
